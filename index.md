@@ -46,23 +46,23 @@ If you'd like to keep up with what's going on in Arbor or to help us build it, y
 
 Who do we need?
 
-- Developers: right now, there's a mountain of code that we need to right before the new implementation can go live. If you want to get involved, we're happy to have you. Many design decisions have not yet been made, and there's a lot of opportunity to shape the direction of the project.
+- Developers: there's a mountain of code that we need to right before the new implementation can go live. If you want to get involved, we're happy to have you. Many design decisions have not yet been made, and there's a lot of opportunity to shape the direction of the project.
 
 Who will we need?
 
-- Users: just using Arbor and telling us what you think about it is immeasurably valuable
+- Users: just using Arbor and telling us what you think about it is immeasurably valuable.
 - Designers: it's easy to build a capable tool that is crippled by a terrible user experience. We could really use people who can help us avoid that pitfall. Additionally, there's a lot of space for innovation in tree-based chat. There aren't many user interfaces like this, and we think some really cool things are possible.
 
 # FAQ
 
-## Where did the logo come from?
+### Where did the logo come from?
 
 The inspiration for the logo was a sketch by Katerina Waldon. Chris Waldon hacked together the current one in Inkscape.
 
-## Why is some stuff on GitHub and some stuff on SourceHut?
+### Why is some stuff on GitHub and some stuff on SourceHut?
 
 When the project started, we didn't know sourcehut existed. We really like some of the ideas behind sourcehut, and we're trying it out for the time being as a possible permanent home for the project. We will try to mirror all of our code back to GitHub to make it all easy to find though.
 
-## Why make a new chat application? Isn't the market saturated enough?
+### Why make a new chat application? Isn't the market saturated enough?
 
 Sure; there are hundreds of other applications that do chat, and many of them are very good tools. Arbor's goal is to address some shortcomings that we see in existing chat platforms.
