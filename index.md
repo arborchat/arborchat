@@ -32,7 +32,7 @@ For our proof-of-concept implementation, there is:
 - [arbor-go](https://github.com/arborchat/arbor-go): a golang implementation of the protocol
 - [server](https://github.com/arborchat/server): a simple arbor server
 - [muscadine](https://github.com/arborchat/muscadine): a terminal arbor client
-- [trellis](https://git.sr.ht/~whereswaldon/trellis): a (poorly made) experiment at building a web ui for arbor
+- [trellis](https://git.sr.ht/~whereswaldon/trellis): a (poorly made) experiment at building a web UI for arbor
 - [kudzu](https://github.com/arborchat/kudzu): a test program that replies with long random messages
 - [ivy](https://github.com/arborchat/ivy): an old test client
 - [pergola](https://github.com/arborchat/pergola): the first arbor chat client; has a terrible UX
@@ -46,7 +46,7 @@ If you'd like to keep up with what's going on in Arbor or to help us build it, y
 
 Who do we need?
 
-- Developers: there's a mountain of code that we need to right before the new implementation can go live. If you want to get involved, we're happy to have you. Many design decisions have not yet been made, and there's a lot of opportunity to shape the direction of the project.
+- Developers: there's a mountain of code that we need to write before the new implementation can go live. If you want to get involved, we're happy to have you. Many design decisions have not yet been made, and there's a lot of opportunity to shape the direction of the project.
 
 Who will we need?
 
