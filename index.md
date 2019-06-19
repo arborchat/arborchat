@@ -43,6 +43,7 @@ For our proof-of-concept implementation, there is:
 If you'd like to keep up with what's going on in Arbor or to help us build it, you can:
 
 - Join our [mailing list](https://lists.sr.ht/~whereswaldon/arbor-dev)
+  - When you click "Subscribe," it will open an email client with a new message. Send literally *anything* to that email address and you'll be subscribed to the mailing list.
 
 Who do we need?
 
