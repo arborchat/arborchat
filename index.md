@@ -44,6 +44,7 @@ If you'd like to keep up with what's going on in Arbor or to help us build it, y
 
 - Join our [mailing list](https://lists.sr.ht/~whereswaldon/arbor-dev)
   - When you click "Subscribe," it will open an email client with a new message. Send literally *anything* to that email address and you'll be subscribed to the mailing list.
+- Check out our [open issues](https://todo.sr.ht/~whereswaldon/arbor-dev) if you'd like to help out or report bugs.
 
 Who do we need?
 
