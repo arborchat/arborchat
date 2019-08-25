@@ -1,3 +1,6 @@
+---
+title: "Arbor Chat"
+---
 ![arbor logo](https://git.sr.ht/~whereswaldon/forest-go/blob/master/img/arbor-logo.png)
 
 # About
@@ -24,7 +27,10 @@ Arbor started in February 2018 as a wacky idea. We implemented a proof-of-concep
 
 For the new implementation, we have these components built:
 
-- [forest-go](https://git.sr.ht/~whereswaldon/forest-go): a library for creating and manipulating messages (nodes) in the Arbor system
+- [forest-go](https://git.sr.ht/~whereswaldon/forest-go): a library for creating and manipulating messages (nodes) in the Arbor system.
+- [viewer](https://git.sr.ht/~whereswaldon/forest-go/tree/master/cmd/viewer): a poorly-named read-write client for arbor. It currently lives in a subdirectory of `forest-go`, but there are plans to move it into its own repository soon.
+- [sprout-go](https://git.sr.ht/~whereswaldon/sprout-go): a library for speaking the sprout protocol (our simple node exchange protocol).
+- *Coming Soon* sinensis: the reference arbor relay implementation (relays are like servers in a conventional system, except that everybody runs one).
 
 For our proof-of-concept implementation, there is:
 
@@ -67,4 +73,4 @@ When the project started, we didn't know sourcehut existed. We really like some 
 
 ### Why make a new chat application? Isn't the market saturated enough?
 
-Sure; there are hundreds of other applications that do chat, and many of them are very good tools. Arbor's goal is to address some shortcomings that we see in existing chat platforms.
+Sure; there are hundreds of other applications that do chat, and many of them are very good tools. Arbor's goal isn't to replace them all, but to demonstrate that there are other interesting ways to build chat.
