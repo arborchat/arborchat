@@ -1,6 +1,7 @@
 ---
 title: Arbor Chat
 ---
+
 ![arbor logo](https://git.sr.ht/~whereswaldon/forest-go/blob/master/img/arbor-logo.png)
 
 # About
