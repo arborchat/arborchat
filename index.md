@@ -26,8 +26,11 @@ Arbor started in February 2018 as a wacky idea. We implemented a proof-of-concep
 
 ## Components
 
-For the new implementation, we have these components built:
+For the new implementation, we have:
 
+- [specifications](specifications): programming-language-agnostic
+  descriptions of the formats, conventions, and protocols that Arbor
+  uses.
 - [forest-go](https://git.sr.ht/~whereswaldon/forest-go): a library for creating and manipulating messages (nodes) in the Arbor system.
 - [viewer](https://git.sr.ht/~whereswaldon/forest-go/tree/master/cmd/viewer): a poorly-named read-write client for arbor. It currently lives in a subdirectory of `forest-go`, but there are plans to move it into its own repository soon.
 - [sprout-go](https://git.sr.ht/~whereswaldon/sprout-go): a library for speaking the sprout protocol (our simple node exchange protocol).
