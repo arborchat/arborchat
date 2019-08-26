@@ -5,6 +5,9 @@ title: Sprout Protocol Specification
 Sprout Protocol 0.0
 ===
 
+Sprout is a simple connection-oriented protocol for exchanging nodes
+in the arbor forest (as defined by the [arbor forest specification](forest.md)).
+
 Protocol requires transport that is:
 
 - connection-based
