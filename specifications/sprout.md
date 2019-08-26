@@ -6,14 +6,17 @@ Sprout Protocol 0.0
 ===
 
 Protocol requires transport that is:
+
 - connection-based
 - reliable delivery
 
 Protocol messages:
+
 - newline delimited messages
 - first line is header information and includes length of subsequent lines
 
 Example:
+
 ```
 response message_id:2 count:5
 SHA512...
@@ -24,11 +27,13 @@ SHA512...
 ```
 
 Anatomy of protocol message:
+
 ```
 <verb> <id> [message-specific fields]
 ```
 
 Messages:
+
 ```
 version <message_id> <version number>
 
@@ -68,6 +73,7 @@ announce <message_id> <count>
 ```
 
 Procedure:
+
 ```
 client -> server: version
 server -> client: version | error (unsupported)
