@@ -43,13 +43,6 @@ In a *response message*, the second whitespace-delimited element of the header l
 
 The version *message* is an advertisment of the sender's protocol version. It is intended to indicate to the other end of the connection what messages are understood.
 
-#### Possible Responses
-
-- `ok`
-- `error VERSION_TOO_HIGH`
-- `error VERSION_TOO_LOW`
-- `error TOO_MANY_REQUESTS`
-
 #### Message Structure
 
 ```
@@ -58,6 +51,11 @@ version <message_id> <version number>
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
 - `version_number` should be the dotted-numeral notation of the protocol major and minor version number.
+
+#### Possible Responses
+
+- `ok_part`
+- `error`
 
 #### Example
 
@@ -71,11 +69,6 @@ An advertisment that the local client supports only the current unstable protoco
 
 The `query_any` *message* requests a quantity of recent nodes of a given type. This is useful when attempting to discover new identity and community nodes.
 
-#### Possible Responses
-
-- `response <message_id> <count>` followed by <count> number of *response lines*
-- `error TOO_MANY_REQUESTS`
-
 #### Message Structure
 
 ```
@@ -85,6 +78,11 @@ query_any <message_id> <node_type> <quantity>
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
 - `node_type` should one of the arbor forest node types defined [here](forest.md) as a decimal integer.
 - `quantity` should be the number of nodes requested. The response is guaranteed to have less than or equal to this many elements.
+
+#### Possible Responses
+
+- `response`
+- `error`
 
 #### Example
 
@@ -98,11 +96,6 @@ A request for ten community nodes.
 
 The `query` *message* requests a list of specific nodes. This is useful when looking up specific node values (like when resolving the authors of reply nodes).
 
-#### Possible Responses
-
-- `response <message_id> <count>` followed by <count> number of *response lines*
-- `error TOO_MANY_REQUESTS`
-
 #### Message Structure
 
 ```
@@ -113,6 +106,11 @@ query <message_id> <count>
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
 - `count` should be the number of *message ids* that follow the header row (one per line).
+
+#### Possible Responses
+
+- `response`
+- `error`
 
 #### Example
 
@@ -127,11 +125,6 @@ SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co
 
 The `ancestry` *message* requests the nodes prior to a list of nodes within the arbor forest up to a specified depth. This is useful when looking up the history of a collection of leaf nodes.
 
-#### Possible Responses
-
-- Multiple of `response <message_id>[index] <count>` followed by <count> number of *response lines*
-- `error TOO_MANY_REQUESTS`
-
 #### Message Structure
 
 ```
@@ -145,6 +138,11 @@ ancestry <message_id> <count>
 - `ancestry_request` lines are structured as:
   - `<num_levels> <node_id>` where `num_levels` is the maximum number of ancestor nodes requested, and `node_id` is the ID of the forest node to start backtracking from.
 
+#### Possible Responses
+
+- Multiple `response`
+- `error`
+
 #### Example
 
 ```
@@ -156,9 +154,34 @@ ancestry 44 3
 
 A request for ancestry of each of the three listed nodes. Note that the number of ancestry nodes requested varies between the three. Each of these three ancestries will generate a separate response or error message.
 
+### Leaves Of
+
+The `leaves_of` *message* requests the a quantity of recent leaf nodes in the subtree rooted at a specific node. This is useful for discovering recent conversations when you join a relay.
+
+#### Possible Responses
+
+- `response`
+- `error`
+
+#### Message Structure
+
 ```
 leaves_of <message_id> <node_id> <quantity>
+```
 
+- `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
+- `node_id` should be the base64url-encoded identifier of the arbor node whose leaf descendants you are querying for.
+- `quantity` should be the number of nodes requested. The response is guaranteed to have less than or equal to this many elements.
+
+#### Example
+
+```
+leaves_of 101 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk 45
+```
+
+A request for the 45 most recent leaf nodes of the given node.
+
+```
 response <target_message_id>[<index>] <count>
 <node_id> <node>
 [<node_id> <node>...]
