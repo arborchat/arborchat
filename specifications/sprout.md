@@ -1,9 +1,6 @@
 ---
-title: Sprout Protocol Specification
+title: Sprout Protocol 0.0 Specification
 ---
-
-Sprout Protocol 0.0
-===
 
 Sprout is a simple connection-oriented protocol for exchanging nodes
 in the arbor forest (as defined by the [arbor forest specification](forest.md)).
@@ -105,7 +102,7 @@ query <message_id> <count>
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
-- `count` should be the number of *message ids* that follow the header row (one per line).
+- `count` should be the number of *node ids* that follow the header row (one per line).
 
 #### Possible Responses
 
@@ -210,27 +207,169 @@ SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co 5Fe4EkkwkDNITsfYFFsTu95j
 
 A response for the third part of request `44` containing three nodes.
 
+### Subscribe
+
+The `subscribe` *message* requests that updates to a list of community nodes be shared over the current connection in real time. This goes both directions. If a subscribe is accepted, both sides agree to share new nodes within that community as soon as they are discovered (by any means). The `subscribe` message is a multiple-response message. Each requested community node can be individually accepted or rejected by the other side of the connection.
+
+#### Message Structure
+
 ```
 subscribe <message_id> <count>
 <community_id>
-[<community_id>...]
-
-unsubscribe <message_id> <count>
 <community_id>
-[<community_id>...]
-
-error <target_message_id> <error_code>
-
-error_part <target_message_id>[<index>] <error_code>
-
-ok_part <target_message_id>[<index>]
-
-announce <message_id> <count>
-<node_id> <node>
-[<node_id> <node>...]
+...
 ```
 
-Procedure:
+- `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
+- `count` should be the number of *community ids* that follow the header row (one per line).
+
+#### Possible Responses
+
+- `ok_part`
+- `error_part`
+
+#### Example
+
+```
+subscribe 20 3
+SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk
+SHA512_B32__TlztQX6enWYO3EXlDg1_F6tXOpiSxlGr7nZTNF530lM
+SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co
+```
+
+### Unsubscribe
+
+The `unsubscribe` *message* requests that updates to a list of community nodes no longer be shared over the current connection. This goes both directions. `unsubscribe` messages MUST be honored by both sides, but the request may error if attempting to unsubscribe from a non-subscribed or nonexistent community. The `unsubscribe` message is a multiple-response message.
+
+#### Message Structure
+
+```
+unsubscribe <message_id> <count>
+<community_id>
+<community_id>
+...
+```
+
+- `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
+- `count` should be the number of *community ids* that follow the header row (one per line).
+
+#### Possible Responses
+
+- `ok_part`
+- `error_part`
+
+#### Example
+
+```
+unsubscribe 110 3
+SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk
+SHA512_B32__TlztQX6enWYO3EXlDg1_F6tXOpiSxlGr7nZTNF530lM
+SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co
+```
+
+### Error
+
+The `error` *message* indicates that previous request failed.
+
+#### Message Structure
+
+```
+error <target_message_id> <error_code>
+```
+
+- `target_message_id` is the message id of the request message that this responds to.
+- `error_code` is one of the codes listed in [Error Codes](#error-codes).
+
+#### Example
+
+```
+error 44 3
+```
+
+This message indicates that the request with `message_id` 44 referred to a node that is unknown to the other end of the connection.
+
+### Error Part
+
+The `error_part` *message* indicates that part of a previous request failed.
+
+#### Message Structure
+
+```
+error_part <target_message_id>[<index>] <error_code>
+```
+
+- `target_message_id` is the message id of the request message that this responds to.
+- `index` is the request part index (0-based) that this is a response to. For instance, an `ancestry` request can ask for the histories of many different nodes. A response for the second of those nodes would have an `index` of `1`.
+- `error_code` is one of the codes listed in [Error Codes](#error-codes).
+
+#### Example
+
+```
+error_part 48[2] 3
+```
+
+This message indicates that the third item requested by the message with `message_id` 48 referred to a node that is unknown to the other end of the connection.
+
+### Ok Part
+
+The `ok_part` *message* indicates that part of a previous request succeeded.
+
+#### Message Structure
+
+```
+ok_part <target_message_id>[<index>]
+```
+
+- `target_message_id` is the message id of the request message that this responds to.
+- `index` is the request part index (0-based) that this is a response to. For instance, an `ancestry` request can ask for the histories of many different nodes. A response for the second of those nodes would have an `index` of `1`.
+
+#### Example
+
+```
+ok_part 201[0]
+```
+
+This message indicates that the first item requested by the message with `message_id` 201 succeeded.
+
+### Announce
+
+The `announce` *message* contains a set of new nodes belonging to one of the connection's subscribed communities. This message is used to inform the other end of the connection of new content.
+
+#### Message Structure
+
+```
+announce <message_id> <count>
+<node_id> <node_content>
+...
+```
+
+- `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
+- `count` should be the number of *node lines* that follow the header row (one per line).
+- `node` lines are structured as:
+  - `<node_id> <node_content>` where `node_id` is the ID of the forest node on the line and `node_content` is the base64url-encoded content of the node.
+
+#### Example
+
+```
+announce 321 3
+SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk YNAPcdvwkDNITsfYFFsTu95jM5Fe4EkkwkDNITsfYFFsTu95jM5Fejek...
+SHA512_B32__TlztQX6enWYO3EXlDg1_F6tXOpiSxlGr7nZTNF530lM vwkDNITsfYFFsTu95jM5Fe4EkkwkDNITsfYFFsTu95jM5FekDNITsfYF...
+SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co 5Fe4EkkwkDNITsfYFFsTu95jM5Fe5Fe4EkkwkDNITsfYFFsTu95jM5Fe...
+```
+
+Three new nodes from a subscribed community being announced to the other end of the connection.
+
+## Error Codes
+
+| ---           | ---              | ---                                                             |
+| Numeric Value | Name             | Meaning                                                         |
+| ---           | ---              | ---                                                             |
+| 0             | Malformed        | the request was not structurally valid in this protocol version |
+| 1             | Protocol Too Old | the requested protocol version is too old                       |
+| 2             | Protocol Too New | the requested protocol version is too new                       |
+| 3             | Unknown Node     | the request refers to a forest node that is not known           |
+
+## Procedure:
 
 ```
 client -> server: version
