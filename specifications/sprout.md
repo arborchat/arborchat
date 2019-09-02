@@ -181,11 +181,36 @@ leaves_of 101 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk 45
 
 A request for the 45 most recent leaf nodes of the given node.
 
+### Response
+
+The `response` *message* contains a set of results for part (or all) of a previous request message.
+
+#### Message Structure
+
 ```
 response <target_message_id>[<index>] <count>
-<node_id> <node>
-[<node_id> <node>...]
+<node_id> <node_content>
+...
+```
 
+- `target_message_id` is the message id of the request message that this responds to.
+- `index` is the request part index (0-based) that this is a response to. For instance, an `ancestry` request can ask for the histories of many different nodes. A response for the second of those nodes would have an `index` of `1`.
+- `count` should be the number of *node lines* that follow the header row (one per line).
+- `node` lines are structured as:
+  - `<node_id> <node_content>` where `node_id` is the ID of the forest node on the line and `node_content` is the base64url-encoded content of the node.
+
+#### Example
+
+```
+response 44[2] 3
+SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk YNAPcdvwkDNITsfYFFsTu95jM5Fe4EkkwkDNITsfYFFsTu95jM5Fejek...
+SHA512_B32__TlztQX6enWYO3EXlDg1_F6tXOpiSxlGr7nZTNF530lM vwkDNITsfYFFsTu95jM5Fe4EkkwkDNITsfYFFsTu95jM5FekDNITsfYF...
+SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co 5Fe4EkkwkDNITsfYFFsTu95jM5Fe5Fe4EkkwkDNITsfYFFsTu95jM5Fe...
+```
+
+A response for the third part of request `44` containing three nodes.
+
+```
 subscribe <message_id> <count>
 <community_id>
 [<community_id>...]
