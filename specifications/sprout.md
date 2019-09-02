@@ -361,13 +361,64 @@ Three new nodes from a subscribed community being announced to the other end of 
 
 ## Error Codes
 
-| ---           | ---              | ---                                                             |
-| Numeric Value | Name             | Meaning                                                         |
-| ---           | ---              | ---                                                             |
-| 0             | Malformed        | the request was not structurally valid in this protocol version |
-| 1             | Protocol Too Old | the requested protocol version is too old                       |
-| 2             | Protocol Too New | the requested protocol version is too new                       |
-| 3             | Unknown Node     | the request refers to a forest node that is not known           |
+<table class="table table-sm table-hover">
+  <thead>
+    <tr>
+      <th>Numeric Value</th>
+      <th>Human Name</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>
+        0
+        </td>
+        <td>
+        Malformed
+        </td>
+        <td>
+        the request was not structurally valid in this protocol version
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+        1
+        </td>
+        <td>
+        Protocol Too Old
+        </td>
+        <td>
+        the requested protocol version is too old
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+        2
+        </td>
+        <td>
+        Protocol Too New
+        </td>
+        <td>
+        the requested protocol version is too new
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+        3
+        </td>
+        <td>
+        Unknown Node
+        </td>
+        <td>
+        the request refers to a forest node that is not known
+        </td>
+    </tr>
+  </tbody>
+</table>
 
 ## Procedure:
 
