@@ -9,6 +9,8 @@ Protocol requires an underlying transport that is connection-oriented and suppor
 
 Sprout is an exchange of *messages*, where either side can send any message type.
 
+## Message Structure
+
 *Messages* consist of a single *header line* followed by zero or more lines of *content*. All lines, both *header* and *content* end with the ASCII newline character `\n`.
 
 There are two types of *message*, *requests* and *responses*. Any *request* will have _one or more_ responses.
@@ -33,6 +35,34 @@ In a *response message*, the second whitespace-delimited element of the header l
 ...
 ```
 
+## Content Line Types
+
+Sprout messages that have a body of extra data after their header lines use one of several structures for each line of their body:
+
+### Node ID Lines
+
+A *node_id_line* just contains a base64url-encoded Node ID for an Arbor Forest node.
+
+```
+<node_id>
+```
+
+### Counted Node ID Lines
+
+A *counted_node_id_line* contains an unsigned integer and an Arbor Forest Node ID.
+
+```
+<int> <node_id>
+```
+
+### Full Node Lines
+
+A *full_node_line* contains an Arbor Forest Node ID followed by the base64url-encoded value of that entire Arbor Forest Node.
+
+```
+<node_id> <node>
+```
+
 ## Message Types
 
 
@@ -51,8 +81,7 @@ version <message_id> <version number>
 
 #### Possible Responses
 
-- `ok_part`
-- `error`
+- `status`
 
 #### Example
 
@@ -62,14 +91,14 @@ version 1 0.0
 
 An advertisment that the local client supports only the current unstable protocol version.
 
-### Query Any
+### Recent
 
-The `query_any` *message* requests a quantity of recent nodes of a given type. This is useful when attempting to discover new identity and community nodes.
+The `recent` *message* requests a quantity of recent nodes of a given type. This is useful when attempting to discover new identity and community nodes.
 
 #### Message Structure
 
 ```
-query_any <message_id> <node_type> <quantity>
+recent <message_id> <node_type> <quantity>
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
@@ -78,8 +107,8 @@ query_any <message_id> <node_type> <quantity>
 
 #### Possible Responses
 
-- `response`
-- `error`
+- `results`
+- `status`
 
 #### Example
 
@@ -97,17 +126,18 @@ The `query` *message* requests a list of specific nodes. This is useful when loo
 
 ```
 query <message_id> <count>
-<node_id>
+<node_id_line>
 ...
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
 - `count` should be the number of *node ids* that follow the header row (one per line).
+- `node_id_line` is described in [the section on Node ID Lines](#node-id-lines)
 
 #### Possible Responses
 
-- `response`
-- `error`
+- `results`
+- `status`
 
 #### Example
 
@@ -126,19 +156,18 @@ The `ancestry` *message* requests the nodes prior to a list of nodes within the 
 
 ```
 ancestry <message_id> <count>
-<ancestry_request>
+<counted_node_id_line>
 ...
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
-- `count` should be the number of *ancestry request lines* that follow the header row (one per line).
-- `ancestry_request` lines are structured as:
-  - `<num_levels> <node_id>` where `num_levels` is the maximum number of ancestor nodes requested, and `node_id` is the ID of the forest node to start backtracking from.
-
+- `count` should be the number of *coutned node id lines* that follow the header row (one per line).
+- `counted_node_id_line` is described in the section on [Counted Node ID Lines](#counted-node-id-lines).
+ 
 #### Possible Responses
 
-- Multiple `response`
-- `error`
+- `results`
+- `status`
 
 #### Example
 
@@ -157,55 +186,28 @@ The `leaves_of` *message* requests the a quantity of recent leaf nodes in the su
 
 #### Possible Responses
 
-- `response`
-- `error`
+- `results`
+- `status`
 
 #### Message Structure
 
 ```
-leaves_of <message_id> <node_id> <quantity>
+leaves_of <message_id> <count>
+<counted_node_id_line>
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
-- `node_id` should be the base64url-encoded identifier of the arbor node whose leaf descendants you are querying for.
-- `quantity` should be the number of nodes requested. The response is guaranteed to have less than or equal to this many elements.
+- `count` should be the number of *counted node id lines* that follow the header row (one per line).
+- `counted_node_id_line` is described in the section on [Counted Node ID Lines](#counted-node-id-lines).
 
 #### Example
 
 ```
-leaves_of 101 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk 45
+leaves_of 101 1
+45 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk
 ```
 
 A request for the 45 most recent leaf nodes of the given node.
-
-### Response
-
-The `response` *message* contains a set of results for part (or all) of a previous request message.
-
-#### Message Structure
-
-```
-response <target_message_id>[<index>] <count>
-<node_id> <node_content>
-...
-```
-
-- `target_message_id` is the message id of the request message that this responds to.
-- `index` is the request part index (0-based) that this is a response to. For instance, an `ancestry` request can ask for the histories of many different nodes. A response for the second of those nodes would have an `index` of `1`.
-- `count` should be the number of *node lines* that follow the header row (one per line).
-- `node` lines are structured as:
-  - `<node_id> <node_content>` where `node_id` is the ID of the forest node on the line and `node_content` is the base64url-encoded content of the node.
-
-#### Example
-
-```
-response 44[2] 3
-SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk YNAPcdvwkDNITsfYFFsTu95jM5Fe4EkkwkDNITsfYFFsTu95jM5Fejek...
-SHA512_B32__TlztQX6enWYO3EXlDg1_F6tXOpiSxlGr7nZTNF530lM vwkDNITsfYFFsTu95jM5Fe4EkkwkDNITsfYFFsTu95jM5FekDNITsfYF...
-SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co 5Fe4EkkwkDNITsfYFFsTu95jM5Fe5Fe4EkkwkDNITsfYFFsTu95jM5Fe...
-```
-
-A response for the third part of request `44` containing three nodes.
 
 ### Subscribe
 
@@ -215,18 +217,17 @@ The `subscribe` *message* requests that updates to a list of community nodes be 
 
 ```
 subscribe <message_id> <count>
-<community_id>
-<community_id>
+<node_id_line>
 ...
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
 - `count` should be the number of *community ids* that follow the header row (one per line).
+- `node_id_line` is described in [the section on Node ID Lines](#node-id-lines).
 
 #### Possible Responses
 
-- `ok_part`
-- `error_part`
+- `status`
 
 #### Example
 
@@ -245,18 +246,17 @@ The `unsubscribe` *message* requests that updates to a list of community nodes n
 
 ```
 unsubscribe <message_id> <count>
-<community_id>
-<community_id>
+<node_id_line>
 ...
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
 - `count` should be the number of *community ids* that follow the header row (one per line).
+- `node_id_line` is described in [the section on Node ID Lines](#node-id-lines).
 
 #### Possible Responses
 
-- `ok_part`
-- `error_part`
+- `status`
 
 #### Example
 
@@ -267,70 +267,6 @@ SHA512_B32__TlztQX6enWYO3EXlDg1_F6tXOpiSxlGr7nZTNF530lM
 SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co
 ```
 
-### Error
-
-The `error` *message* indicates that previous request failed.
-
-#### Message Structure
-
-```
-error <target_message_id> <error_code>
-```
-
-- `target_message_id` is the message id of the request message that this responds to.
-- `error_code` is one of the codes listed in [Error Codes](#error-codes).
-
-#### Example
-
-```
-error 44 3
-```
-
-This message indicates that the request with `message_id` 44 referred to a node that is unknown to the other end of the connection.
-
-### Error Part
-
-The `error_part` *message* indicates that part of a previous request failed.
-
-#### Message Structure
-
-```
-error_part <target_message_id>[<index>] <error_code>
-```
-
-- `target_message_id` is the message id of the request message that this responds to.
-- `index` is the request part index (0-based) that this is a response to. For instance, an `ancestry` request can ask for the histories of many different nodes. A response for the second of those nodes would have an `index` of `1`.
-- `error_code` is one of the codes listed in [Error Codes](#error-codes).
-
-#### Example
-
-```
-error_part 48[2] 3
-```
-
-This message indicates that the third item requested by the message with `message_id` 48 referred to a node that is unknown to the other end of the connection.
-
-### Ok Part
-
-The `ok_part` *message* indicates that part of a previous request succeeded.
-
-#### Message Structure
-
-```
-ok_part <target_message_id>[<index>]
-```
-
-- `target_message_id` is the message id of the request message that this responds to.
-- `index` is the request part index (0-based) that this is a response to. For instance, an `ancestry` request can ask for the histories of many different nodes. A response for the second of those nodes would have an `index` of `1`.
-
-#### Example
-
-```
-ok_part 201[0]
-```
-
-This message indicates that the first item requested by the message with `message_id` 201 succeeded.
-
 ### Announce
 
 The `announce` *message* contains a set of new nodes belonging to one of the connection's subscribed communities. This message is used to inform the other end of the connection of new content.
@@ -339,14 +275,17 @@ The `announce` *message* contains a set of new nodes belonging to one of the con
 
 ```
 announce <message_id> <count>
-<node_id> <node_content>
+<full_node_line>
 ...
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
 - `count` should be the number of *node lines* that follow the header row (one per line).
-- `node` lines are structured as:
-  - `<node_id> <node_content>` where `node_id` is the ID of the forest node on the line and `node_content` is the base64url-encoded content of the node.
+- `full_node_line` is described in [the section on Full Node Lines](#full-node-lines).
+
+#### Possible Responses
+
+- `status`
 
 #### Example
 
@@ -359,7 +298,57 @@ SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co 5Fe4EkkwkDNITsfYFFsTu95j
 
 Three new nodes from a subscribed community being announced to the other end of the connection.
 
-## Error Codes
+### Results
+
+The `results` *message* contains a set of results for part (or all) of a previous request message.
+
+#### Message Structure
+
+```
+results <target_message_id>[<index>] <count>
+<full_node_line>
+...
+```
+
+- `target_message_id` is the message id of the request message that this responds to.
+- `index` is the request part index (0-based) that this is a response to. For instance, an `ancestry` request can ask for the histories of many different nodes. A response for the second of those nodes would have an `index` of `1`.
+- `count` should be the number of *node lines* that follow the header row (one per line).
+- `full_node_line` is described in [the section on Full Node Lines](#full-node-lines).
+
+#### Example
+
+```
+results 44[2] 3
+SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk YNAPcdvwkDNITsfYFFsTu95jM5Fe4EkkwkDNITsfYFFsTu95jM5Fejek...
+SHA512_B32__TlztQX6enWYO3EXlDg1_F6tXOpiSxlGr7nZTNF530lM vwkDNITsfYFFsTu95jM5Fe4EkkwkDNITsfYFFsTu95jM5FekDNITsfYF...
+SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co 5Fe4EkkwkDNITsfYFFsTu95jM5Fe5Fe4EkkwkDNITsfYFFsTu95jM5Fe...
+```
+
+A response for the third part of request `44` containing three nodes.
+
+### Status
+
+The `status` *message* indicates the success or failure of a part of a previous request.
+
+#### Message Structure
+
+```
+status <target_message_id>[<index>] <status_code>
+```
+
+- `target_message_id` is the message id of the request message that this responds to.
+- `index` is the request part index (0-based) that this is a response to. For instance, an `ancestry` request can ask for the histories of many different nodes. A response for the second of those nodes would have an `index` of `1`.
+- `error_code` is one of the codes listed in [Error Codes](#error-codes).
+
+#### Example
+
+```
+status 44[3] 3
+```
+
+This message indicates that the fourth component of the request with `message_id` 44 referred to a node that is unknown to the other end of the connection.
+
+## Status Codes
 
 <table class="table table-sm table-hover">
   <thead>
@@ -375,6 +364,18 @@ Three new nodes from a subscribed community being announced to the other end of 
         0
         </td>
         <td>
+        Ok
+        </td>
+        <td>
+        the request was successful
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+        1
+        </td>
+        <td>
         Malformed
         </td>
         <td>
@@ -384,7 +385,7 @@ Three new nodes from a subscribed community being announced to the other end of 
     
     <tr>
         <td>
-        1
+        2
         </td>
         <td>
         Protocol Too Old
@@ -396,7 +397,7 @@ Three new nodes from a subscribed community being announced to the other end of 
     
     <tr>
         <td>
-        2
+        3
         </td>
         <td>
         Protocol Too New
@@ -408,7 +409,7 @@ Three new nodes from a subscribed community being announced to the other end of 
     
     <tr>
         <td>
-        3
+        4
         </td>
         <td>
         Unknown Node
@@ -424,24 +425,22 @@ Three new nodes from a subscribed community being announced to the other end of 
 
 ```
 client -> server: version
-server -> client: version | error (unsupported)
+server -> client: version | status (unsupported)
 
-client -> server: query_any communities
-server -> client: response (of communities) | error
+client -> server: recent communities
+server -> client: results (of communities) | status (error)
 
 client -> server: unsubscribe | subscribe (to communities)
-server -> client: ok_part | error_part
+server -> client: status
 
 peer1 -> peer2: announce
+peer2 -> peer1: status
 
-peer1 -> peer2: query_any | leaves_of
-peer2 -> peer1: response | error
+peer1 -> peer2: recent | leaves_of
+peer2 -> peer1: results | status
 
 peer1-> peer2: query N | ancestry N
-peer2 -> peer1: response N[0] | error_part
-peer2 -> peer1: response N[1] | error_part
-
-...
+peer2 -> peer1: results | status
 ```
 
 Encoding:
