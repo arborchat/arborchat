@@ -13,11 +13,11 @@ Sprout is an exchange of *messages*, where either side can send any message type
 
 *Messages* consist of a single *header line* followed by zero or more lines of *content*. All lines, both *header* and *content* end with the ASCII newline character `\n`.
 
-There are two types of *message*, *requests* and *responses*. Any *request* will have _one or more_ responses.
+There are two types of *message*, *requests* and *responses*. Each *request* will have one *response*.
 
 All *message header lines* begin with a plaintext *verb* indicating what kind of *message* they are. 
 
-There is no requirement to wait for a *response* before sending another *request*. Either party may choose to *respond* with an [error](#error) or [error_part](#error_part) message if the sprout implementation cannot handle a sufficient number of in-flight requests.
+There is no requirement to wait for a *response* before sending another *request*. Either party may choose to *respond* with an [error status](#status) message if the sprout implementation cannot handle a sufficient number of in-flight requests.
 
 In *request messages*, the second whitespace-delimited element of the header line is a *message id*, which is a monotonically increasing unsigned integer (in decimal notation) that MUST be unique for the lifetime of the sprout connection. Most *messages* have different headers after the *message id*.
 
@@ -27,10 +27,10 @@ In *request messages*, the second whitespace-delimited element of the header lin
 ...
 ```
 
-In a *response message*, the second whitespace-delimited element of the header line is a *target message id*, which indicates which *request message* the response corresponds to. Some *request messages* will have multiple *response messages*. These are distinguished by the use of a square-bracketed *index* after the *target message id*.
+In a *response message*, the second whitespace-delimited element of the header line is a *target message id*, which indicates which *request message* the response corresponds to.
 
 ```
-<verb> <target_message_id>[\[<index>\]] [<header> ...]
+<verb> <target_message_id> [<header> ...]
 [<content_line>]
 ...
 ```
@@ -45,14 +45,6 @@ A *node_id_line* just contains a base64url-encoded Node ID for an Arbor Forest n
 
 ```
 <node_id>
-```
-
-### Counted Node ID Lines
-
-A *counted_node_id_line* contains an unsigned integer and an Arbor Forest Node ID.
-
-```
-<int> <node_id>
 ```
 
 ### Full Node Lines
@@ -91,14 +83,14 @@ version 1 0.0
 
 An advertisment that the local client supports only the current unstable protocol version.
 
-### Recent
+### List
 
-The `recent` *message* requests a quantity of recent nodes of a given type. This is useful when attempting to discover new identity and community nodes.
+The `list` *message* requests a quantity of recent nodes of a given type. This is useful when attempting to discover new identity and community nodes.
 
 #### Message Structure
 
 ```
-recent <message_id> <node_type> <quantity>
+list <message_id> <node_type> <quantity>
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
@@ -113,7 +105,7 @@ recent <message_id> <node_type> <quantity>
 #### Example
 
 ```
-query_any 5 1 10
+list 5 1 10
 ```
 
 A request for ten community nodes.
@@ -142,7 +134,7 @@ query <message_id> <count>
 #### Example
 
 ```
-query_any 27 3
+query 27 3
 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk
 SHA512_B32__TlztQX6enWYO3EXlDg1_F6tXOpiSxlGr7nZTNF530lM
 SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co
@@ -155,14 +147,12 @@ The `ancestry` *message* requests the nodes prior to a list of nodes within the 
 #### Message Structure
 
 ```
-ancestry <message_id> <count>
-<counted_node_id_line>
-...
+ancestry <message_id> <node_id> <levels>
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
-- `count` should be the number of *coutned node id lines* that follow the header row (one per line).
-- `counted_node_id_line` is described in the section on [Counted Node ID Lines](#counted-node-id-lines).
+- `node_id` is the id of the node whose ancestry is being requested.
+- `levels` is the desired number of levels of ancestry.
  
 #### Possible Responses
 
@@ -172,13 +162,10 @@ ancestry <message_id> <count>
 #### Example
 
 ```
-ancestry 44 3
-4 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk
-23 SHA512_B32__TlztQX6enWYO3EXlDg1_F6tXOpiSxlGr7nZTNF530lM
-7 SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co
+ancestry 44 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk 3
 ```
 
-A request for ancestry of each of the three listed nodes. Note that the number of ancestry nodes requested varies between the three. Each of these three ancestries will generate a separate response or error message.
+A request for three levels of ancestry for the listed node id.
 
 ### Leaves Of
 
@@ -192,38 +179,34 @@ The `leaves_of` *message* requests the a quantity of recent leaf nodes in the su
 #### Message Structure
 
 ```
-leaves_of <message_id> <count>
-<counted_node_id_line>
+leaves_of <message_id> <node_id> <quantity>
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
-- `count` should be the number of *counted node id lines* that follow the header row (one per line).
-- `counted_node_id_line` is described in the section on [Counted Node ID Lines](#counted-node-id-lines).
+- `node_id` is the id of the node that roots the subtree for which this message is querying leaves.
+- `quantity` should be the number of leaf nodes desired in the response.
 
 #### Example
 
 ```
-leaves_of 101 1
-45 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk
+leaves_of 101 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk 45
 ```
 
 A request for the 45 most recent leaf nodes of the given node.
 
 ### Subscribe
 
-The `subscribe` *message* requests that updates to a list of community nodes be shared over the current connection in real time. This goes both directions. If a subscribe is accepted, both sides agree to share new nodes within that community as soon as they are discovered (by any means). The `subscribe` message is a multiple-response message. Each requested community node can be individually accepted or rejected by the other side of the connection.
+The `subscribe` *message* requests that updates to a community node be shared over the current connection in real time. This goes both directions. If a subscribe is accepted, both sides agree to share new nodes within that community as soon as they are discovered (by any means).
 
 #### Message Structure
 
 ```
-subscribe <message_id> <count>
-<node_id_line>
+subscribe <message_id> <node_id>
 ...
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
-- `count` should be the number of *community ids* that follow the header row (one per line).
-- `node_id_line` is described in [the section on Node ID Lines](#node-id-lines).
+- `node_id` is the identifier of the community that should be added to the connection's subscription list.
 
 #### Possible Responses
 
@@ -232,27 +215,22 @@ subscribe <message_id> <count>
 #### Example
 
 ```
-subscribe 20 3
-SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk
-SHA512_B32__TlztQX6enWYO3EXlDg1_F6tXOpiSxlGr7nZTNF530lM
-SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co
+subscribe 20 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk
 ```
 
 ### Unsubscribe
 
-The `unsubscribe` *message* requests that updates to a list of community nodes no longer be shared over the current connection. This goes both directions. `unsubscribe` messages MUST be honored by both sides, but the request may error if attempting to unsubscribe from a non-subscribed or nonexistent community. The `unsubscribe` message is a multiple-response message.
+The `unsubscribe` *message* requests that updates to a community node no longer be shared over the current connection. This goes both directions. `unsubscribe` messages MUST be honored by both sides, but the request may error if attempting to unsubscribe from a non-subscribed or nonexistent community.
 
 #### Message Structure
 
 ```
-unsubscribe <message_id> <count>
-<node_id_line>
+unsubscribe <message_id> <node_id>
 ...
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
-- `count` should be the number of *community ids* that follow the header row (one per line).
-- `node_id_line` is described in [the section on Node ID Lines](#node-id-lines).
+- `node_id` is the identifier of the community that should be added to the connection's subscription list.
 
 #### Possible Responses
 
@@ -261,10 +239,7 @@ unsubscribe <message_id> <count>
 #### Example
 
 ```
-unsubscribe 110 3
-SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk
-SHA512_B32__TlztQX6enWYO3EXlDg1_F6tXOpiSxlGr7nZTNF530lM
-SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co
+unsubscribe 110 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk
 ```
 
 ### Announce
@@ -305,48 +280,46 @@ The `results` *message* contains a set of results for part (or all) of a previou
 #### Message Structure
 
 ```
-results <target_message_id>[<index>] <count>
+results <target_message_id> <count>
 <full_node_line>
 ...
 ```
 
 - `target_message_id` is the message id of the request message that this responds to.
-- `index` is the request part index (0-based) that this is a response to. For instance, an `ancestry` request can ask for the histories of many different nodes. A response for the second of those nodes would have an `index` of `1`.
 - `count` should be the number of *node lines* that follow the header row (one per line).
 - `full_node_line` is described in [the section on Full Node Lines](#full-node-lines).
 
 #### Example
 
 ```
-results 44[2] 3
+results 44 3
 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk YNAPcdvwkDNITsfYFFsTu95jM5Fe4EkkwkDNITsfYFFsTu95jM5Fejek...
 SHA512_B32__TlztQX6enWYO3EXlDg1_F6tXOpiSxlGr7nZTNF530lM vwkDNITsfYFFsTu95jM5Fe4EkkwkDNITsfYFFsTu95jM5FekDNITsfYF...
 SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co 5Fe4EkkwkDNITsfYFFsTu95jM5Fe5Fe4EkkwkDNITsfYFFsTu95jM5Fe...
 ```
 
-A response for the third part of request `44` containing three nodes.
+A response for request `44` containing three nodes.
 
 ### Status
 
-The `status` *message* indicates the success or failure of a part of a previous request.
+The `status` *message* indicates the success or failure of a previous request.
 
 #### Message Structure
 
 ```
-status <target_message_id>[<index>] <status_code>
+status <target_message_id> <status_code>
 ```
 
 - `target_message_id` is the message id of the request message that this responds to.
-- `index` is the request part index (0-based) that this is a response to. For instance, an `ancestry` request can ask for the histories of many different nodes. A response for the second of those nodes would have an `index` of `1`.
 - `error_code` is one of the codes listed in [Error Codes](#error-codes).
 
 #### Example
 
 ```
-status 44[3] 3
+status 44 3
 ```
 
-This message indicates that the fourth component of the request with `message_id` 44 referred to a node that is unknown to the other end of the connection.
+This message indicates that the request with `message_id` 44 referred to a node that is unknown to the other end of the connection.
 
 ## Status Codes
 
@@ -427,7 +400,7 @@ This message indicates that the fourth component of the request with `message_id
 client -> server: version
 server -> client: version | status (unsupported)
 
-client -> server: recent communities
+client -> server: list communities
 server -> client: results (of communities) | status (error)
 
 client -> server: unsubscribe | subscribe (to communities)
@@ -436,10 +409,7 @@ server -> client: status
 peer1 -> peer2: announce
 peer2 -> peer1: status
 
-peer1 -> peer2: recent | leaves_of
-peer2 -> peer1: results | status
-
-peer1-> peer2: query N | ancestry N
+peer1 -> peer2: list | leaves_of | query | ancestry
 peer2 -> peer1: results | status
 ```
 
