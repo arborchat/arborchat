@@ -99,7 +99,7 @@ list <message_id> <node_type> <quantity>
 
 #### Possible Responses
 
-- `results`
+- `response`
 - `status`
 
 #### Example
@@ -128,7 +128,7 @@ query <message_id> <count>
 
 #### Possible Responses
 
-- `results`
+- `response`
 - `status`
 
 #### Example
@@ -156,7 +156,7 @@ ancestry <message_id> <node_id> <levels>
  
 #### Possible Responses
 
-- `results`
+- `response`
 - `status`
 
 #### Example
@@ -173,7 +173,7 @@ The `leaves_of` *message* requests the a quantity of recent leaf nodes in the su
 
 #### Possible Responses
 
-- `results`
+- `response`
 - `status`
 
 #### Message Structure
@@ -273,14 +273,14 @@ SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co 5Fe4EkkwkDNITsfYFFsTu95j
 
 Three new nodes from a subscribed community being announced to the other end of the connection.
 
-### Results
+### Response
 
-The `results` *message* contains a set of results for part (or all) of a previous request message.
+The `response` *message* contains a set of response for part (or all) of a previous request message.
 
 #### Message Structure
 
 ```
-results <target_message_id> <count>
+response <target_message_id> <count>
 <full_node_line>
 ...
 ```
@@ -292,7 +292,7 @@ results <target_message_id> <count>
 #### Example
 
 ```
-results 44 3
+response 44 3
 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk YNAPcdvwkDNITsfYFFsTu95jM5Fe4EkkwkDNITsfYFFsTu95jM5Fejek...
 SHA512_B32__TlztQX6enWYO3EXlDg1_F6tXOpiSxlGr7nZTNF530lM vwkDNITsfYFFsTu95jM5Fe4EkkwkDNITsfYFFsTu95jM5FekDNITsfYF...
 SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co 5Fe4EkkwkDNITsfYFFsTu95jM5Fe5Fe4EkkwkDNITsfYFFsTu95jM5Fe...
@@ -401,7 +401,7 @@ client -> server: version
 server -> client: version | status (unsupported)
 
 client -> server: list communities
-server -> client: results (of communities) | status (error)
+server -> client: response (of communities) | status (error)
 
 client -> server: unsubscribe | subscribe (to communities)
 server -> client: status
@@ -410,7 +410,7 @@ peer1 -> peer2: announce
 peer2 -> peer1: status
 
 peer1 -> peer2: list | leaves_of | query | ancestry
-peer2 -> peer1: results | status
+peer2 -> peer1: response | status
 ```
 
 Encoding:
