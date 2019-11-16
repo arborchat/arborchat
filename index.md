@@ -31,10 +31,10 @@ For the new implementation, we have:
 - [specifications](specifications): programming-language-agnostic
   descriptions of the formats, conventions, and protocols that Arbor
   uses.
+- [wisteria](https://git.sr.ht/~whereswaldon/wisteria): a terminal client for arbor.
 - [forest-go](https://git.sr.ht/~whereswaldon/forest-go): a library for creating and manipulating messages (nodes) in the Arbor system.
-- [viewer](https://git.sr.ht/~whereswaldon/forest-go/tree/master/cmd/viewer): a poorly-named read-write client for arbor. It currently lives in a subdirectory of `forest-go`, but there are plans to move it into its own repository soon.
 - [sprout-go](https://git.sr.ht/~whereswaldon/sprout-go): a library for speaking the sprout protocol (our simple node exchange protocol).
-- *Coming Soon* sinensis: the reference arbor relay implementation (relays are like servers in a conventional system, except that everybody runs one).
+- sinensis: the reference arbor relay implementation (relays are like servers in a conventional system, except that everybody runs one). The code for this currently lives [here](https://git.sr.ht/~whereswaldon/sprout-go/tree/relay/cmd/relay), but will be moved into its own repo once it reaches a point of maturity.
 
 For our proof-of-concept implementation, there is:
 
