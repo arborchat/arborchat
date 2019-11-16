@@ -1,0 +1,11 @@
+image: archlinux
+sources:
+  - https://git.sr.ht/~whereswaldon/arborchat
+environment:
+  github_mirror_url: "git@github.com:arborchat/arborchat.git"
+secrets:
+  - 5861b12f-a249-400d-a2d9-6170f7250480
+tasks:
+  - mirror_to_github: |
+      cd arborchat
+      ./.builds/mirror.sh "$github_mirror_url"
