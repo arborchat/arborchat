@@ -70,7 +70,7 @@ Common fields:
 
 ### Common Structure
 
-All node types are signed and hashed with their data laid out in a specific order in memory. The procedure for constructing the memory layout used for hashing and signing is as follows:
+All node types are signed and hashed with their data laid out in a specific order on the wire. The procedure for constructing the layout used for hashing and signing is as follows:
 
 Determine the values of these fields:
 
