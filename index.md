@@ -1,5 +1,7 @@
 ---
 title: Arbor Chat
+date: 2019-12-12Z21:54:11-05:00
+draft: false
 ---
 
 ![arbor logo](https://git.sr.ht/~whereswaldon/forest-go/blob/master/img/arbor-logo.png)
