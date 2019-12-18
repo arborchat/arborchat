@@ -54,7 +54,7 @@ For our proof-of-concept implementation, there is:
 
 If you'd like to keep up with what's going on in Arbor or to help us build it, you can:
 
-- Come to our weekly Sync meeting! We meet every Thursday (except some US holidays) at 7pm (Eastern US Time) on nixnet.xzy/mumble. We get together to talk about project status and to give people a chance to ask questions. We're always happy to chat with new people!
+- Come to our weekly Sync meeting! We meet every Thursday (except some US holidays) at 7pm (Eastern US Time) on [nixnet.xzy/mumble](https://nixnet.xyz/mumble). We get together to talk about project status and to give people a chance to ask questions. We're always happy to chat with new people!
 
 - Join our [mailing list](https://lists.sr.ht/~whereswaldon/arbor-dev)
   - When you click "Subscribe," it will open an email client with a new message. Send literally *anything* to that email address and you'll be subscribed to the mailing list.
