@@ -58,16 +58,15 @@ If you'd like to keep up with what's going on in Arbor or to help us build it, y
 
 - Join our [mailing list](https://lists.sr.ht/~whereswaldon/arbor-dev)
   - When you click "Subscribe," it will open an email client with a new message. Send literally *anything* to that email address and you'll be subscribed to the mailing list.
-- Check out our [open issues](https://todo.sr.ht/~whereswaldon/arbor-dev) if you'd like to help out or report bugs.
+- Check out our [open issues](https://todo.sr.ht/~whereswaldon/arbor-dev) if you'd like to help out, report bugs, or request features.
 
 Who do we need?
 
-- Developers: there's a mountain of code that we need to write before the new implementation can go live. If you want to get involved, we're happy to have you. Many design decisions have not yet been made, and there's a lot of opportunity to shape the direction of the project.
-
-Who will we need?
-
-- Users: just using Arbor and telling us what you think about it is immeasurably valuable.
+- Developers: Arbor still lacks many features that we hope to build. If you want to get involved, we're happy to have you. Many design decisions have not yet been made, and there's a lot of opportunity to shape the direction of the project.
 - Designers: it's easy to build a capable tool that is crippled by a terrible user experience. We could really use people who can help us avoid that pitfall. Additionally, there's a lot of space for innovation in tree-based chat. There aren't many user interfaces like this, and we think some really cool things are possible.
+- Writers: If you like Arbor, consider helping us maintain our documentation! It's easy for us to accidentally let the docs go stale, and we need people to help us fight that.
+- Bloggers: Reviews, tutorials, and discussions about the possibilities go a long way!
+- Users: just using Arbor and telling us what you think about it is a valuable contribution in and of itself. Tell us what you like, what you don't, and what you wish you could do. We'll try to deliver on some of those wishes!
 
 # FAQ
 
