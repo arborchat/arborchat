@@ -1,4 +1,4 @@
-title: How Arbor Works
+title: Arbor Technical Overview
 ---
 
 Arbor is a decentralizable, tree-based real-time collaboration platform. It consists of a set of data structures, protocols, and applications that together provide security, flexibility, and integrity. This document explores each component of Arbor and explains how they are combined to create the system that exists today.
@@ -77,3 +77,34 @@ Groves have to follow two simple rules in order to be valid:
 If this principle is obeyed, multiple programs can concurrently access the grove and can trust that insertions into the grove are valid.
 
 The existing implementation of the logic for managing a grove can be found in Go [here](https://git.sr.ht/~whereswaldon/forest-go/tree/master/grove).
+
+## Sprout: Simple Protocol Relaying Our Under-rated Trees
+
+Sprout is a simple connection-oriented protocol for exchanging updates to the Forest. It uses a request-response architecture, but (unlike HTTP) you can make multiple requests on the same connection without waiting for responses. This allows sending many requests for different parts of the Forest and then waiting until the requested data becomes available.
+
+At a high level, the different sprout requests are:
+
+- list all recent nodes of a given type (identity, community, reply)
+- list all leaf nodes in the tree rooted at a given node
+- list all ancestory nodes of a given node
+- list the forest nodes that match a given set of node IDs
+- subscribe (or unsubscribe) to all updates to a given community
+- notify a peer of a new set of nodes (if that peer is subscribed to the community in which they were created)
+
+The specification for Sprout lives [here](/specifications/sprout.md), and our current Go implementation is [here](https://git.sr.ht/~whereswaldon/sprout-go).
+
+## Relay: a unit of arbor network infrastructure
+
+An Arbor "relay" is analagous to a server in traditional client-server architectures, but our relays are designed to be used more widely than as soley server-side infrastructure. Relays speak Sprout, and can both listen on a local address and connect to a set of peer relays. This means that they can both act as a server and connect to a group of other servers in a mesh topology.
+
+We do not currently have any fancy algorithm for building optimal p2p meshes, but one might be introduced later. For now, we operate mostly in a semicentralized star topology where each Arbor user runs a local relay connected to a central relay on sprout://arbor.chat:7117. Over time we hope to expand the central infrastructure so that we can all connect to a set of peer relays that run in a geographically distributed fashion to ensure that they're unlikely to all go down at the same time. We also hope to build mechanisms for relays subscribed to similar communities to dynamically find and connnect directly to one another.
+
+Our current Go relay implementation lives [here](https://git.sr.ht/~whereswaldon/sprout-go/cmd/relay).
+
+## Client: a tool for manipulating the Forest
+
+There are many possible ways to visualize and interact with a tree-based chat application. Arbor clients are the programs that read Forest nodes (typically from a local grove) and render their relationships so that a human can understand them.
+
+We hope to explore many of the possibilities, and we encourage anyone with an idea for a new way to visualize the tree to try it out or describe it to us!
+
+Our current terminal client for Arbor is called `wisteria`. It's written in Go, and you can find it [here](https://git.sr.ht/~whereswaldon/wisteria).
