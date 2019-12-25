@@ -13,40 +13,7 @@ The final node type is a "Reply" node. Reply nodes are messages to other users, 
 
 Here's an example of the relationship between the three kinds of nodes. A node's parent is indicated by a solid line pointing at its parent, and a node's author (the identity which created it) is indicated by a dashed gray line.
 
-```graphviz
-digraph forest {
-    rankdir=BT
-    IdentityA [rank=0,label="Identity: Alice"]
-    IdentityB [rank=0,label="Identity: Bob"]
-    CommunityA [rank=0,label="Community: Cryptography"]
-    CommunityB [rank=0,label="Community: Arbor"]
-
-    ReplyA [rank=1]
-    ReplyB [rank=1]
-    ReplyC [rank=2]
-
-    ReplyD [rank=1]
-    ReplyE [rank=2]
-    ReplyF [rank=2]
-    ReplyG [rank=3]
-    
-    ReplyA -> CommunityA
-    ReplyA -> IdentityA [label="author",color="gray",style="dashed"]
-    ReplyB -> CommunityA
-    ReplyB -> IdentityB [label="author",color="gray",style="dashed"]
-    ReplyC -> ReplyB
-    ReplyC -> IdentityA [label="author",color="gray",style="dashed"]
-    
-    ReplyD -> CommunityB
-    ReplyD -> IdentityA [label="author",color="gray",style="dashed"]
-    ReplyE -> ReplyD
-    ReplyE -> IdentityB [label="author",color="gray",style="dashed"]
-    ReplyF -> ReplyD
-    ReplyF -> IdentityA [label="author",color="gray",style="dashed"]
-    ReplyG -> ReplyF
-    ReplyG -> IdentityB [label="author",color="gray",style="dashed"]
-}
-```
+![embedded visualization of some arbor nodes](https://git.sr.ht/~whereswaldon/arborchat/blob/master/graphviz-rendered/example-forest.dot.png).
 
 Every node is referenced by a "node ID" that is a cryptographic hash of that node's content. Every node has a node ID for its own parent and author embedded inside of itself. Additionally, every node is signed by the public key embedded within its author Identity node.
 

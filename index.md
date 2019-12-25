@@ -22,7 +22,7 @@ Arbor messages track what you were responding to when you wrote them. Every mess
 
 If you think about it, most things you say in a conversation are a response to what someone else just said. Arbor simply captures that information and uses it to help you make sense of very large conversations. Ever get confused when many people respond to a message at around the same time? Arbor makes that situation coherent.
 
-Are you technically inclined? You may be interested in our [technical overview](/technical-overview.md), which digs a lot deeper into the parts of Arbor and how they work.
+Are you technically inclined? You may be interested in our [technical overview](./technical-overview.md), which digs a lot deeper into the parts of Arbor and how they work.
 
 # Status
 
