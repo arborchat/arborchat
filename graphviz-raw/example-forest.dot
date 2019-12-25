@@ -5,14 +5,14 @@ digraph forest {
     CommunityA [rank=0,label="Community: Cryptography"]
     CommunityB [rank=0,label="Community: Arbor"]
 
-    ReplyA [rank=1]
-    ReplyB [rank=1]
-    ReplyC [rank=2]
+    ReplyA [rank=1,label="Hey all!"]
+    ReplyB [rank=1,label="Is P=NP?"]
+    ReplyC [rank=2,label="I hope not!"]
 
-    ReplyD [rank=1]
-    ReplyE [rank=2]
-    ReplyF [rank=2]
-    ReplyG [rank=3]
+    ReplyD [rank=1,label="How does this work?"]
+    ReplyE [rank=2,label="Reply to any message"]
+    ReplyF [rank=2,label="Like this?"]
+    ReplyG [rank=3,label="You got it!"]
     
     ReplyA -> CommunityA
     ReplyA -> IdentityA [label="author",color="gray",style="dashed"]
