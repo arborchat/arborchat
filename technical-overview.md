@@ -1,4 +1,6 @@
+---
 title: Arbor Technical Overview
+date: 2019-12-25Z15:24:11-05:00
 ---
 
 Arbor is a decentralizable, tree-based real-time collaboration platform. It consists of a set of data structures, protocols, and applications that together provide security, flexibility, and integrity. This document explores each component of Arbor and explains how they are combined to create the system that exists today.
@@ -13,7 +15,7 @@ The final node type is a "Reply" node. Reply nodes are messages to other users, 
 
 Here's an example of the relationship between the three kinds of nodes. A node's parent is indicated by a solid line pointing at its parent, and a node's author (the identity which created it) is indicated by a dashed gray line.
 
-![embedded visualization of some arbor nodes](https://git.sr.ht/~whereswaldon/arborchat/blob/master/graphviz-rendered/example-forest.dot.png).
+![embedded visualization of some arbor nodes](https://git.sr.ht/~whereswaldon/arborchat/blob/master/graphviz-rendered/example-forest.dot.png)
 
 Every node is referenced by a "node ID" that is a cryptographic hash of that node's content. Every node has a node ID for its own parent and author embedded inside of itself. Additionally, every node is signed by the public key embedded within its author Identity node.
 
