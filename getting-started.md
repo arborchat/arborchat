@@ -2,6 +2,8 @@
 title: Getting Started with Arbor
 ---
 
+It only takes a few steps to get connected in Arbor!
+
 ## Installation
 
 Arbor needs several software components in order to run effectively. Right now, you'll need [Go 1.13+](https://golang.org/dl/) installed in order to install Arbor, though we are working to eliminate this dependency. To set everything up quickly, you can just run:
