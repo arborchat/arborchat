@@ -24,6 +24,10 @@ If you think about it, most things you say in a conversation are a response to w
 
 Are you technically inclined? You may be interested in our [technical overview](./technical-overview.md), which digs a lot deeper into the parts of Arbor and how they work.
 
+# Want to try it?
+
+Check out our [getting started guide](./getting-started.md) to take Arbor for a test drive!
+
 # Status
 
 Arbor started in February 2018 as a wacky idea. We implemented a proof-of-concept system that embodies chat as a tree over the course of the next ten months, and we were really pleased by the results. However, this system had some serious flaws due to its proof-of-concept nature. It had no security, and no good way to build security. We've started over, but this time we're building something serious. It takes a lot of work to build a secure communication platform from the ground up, so it's slow going.
