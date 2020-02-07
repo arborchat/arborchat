@@ -45,6 +45,7 @@ The Arbor Forest uses a number of common field types with specific meanings. The
 - **Content Length**: an unsigned 16-bit integer representing how many bytes are in another field.
 - **Hash Descriptor**: A Hash Type followed by a Content Length. The Content Length specifies how many bytes the hash digest output should be. These two pieces of data fully specify the hash procedure needed to construct a given hash.
 - **Tree Depth**: an unsigned 32-bit integer indicating how many levels beneath the root of a particular tree a given node is.
+- **Timestamp**: an unsigned 64-bit integer indicating the number of milliseconds since the start of the UNIX Epoch (January 1, 1970, 12:00:00 GMT)
 - **Blob**: binary data with an unspecified length. Blobs should never be used without additional data clarifying their size and the nature of their contents.
 - **Qualified Hash**: A Hash Descriptor followed by a Blob. This encodes both the procedure necessary to derive the hash value as well as the expected result. Special values:
   - If the **Hash Type** is 0 and the **Content Length** is zero, this is a reference to the _Null Hash_. This will usually be used in the `parent` field of nodes that are the root of a tree within the Arbor Forest.
@@ -64,6 +65,7 @@ Common fields:
 - `parent` **Qualified Hash**: the hash of the parent tree node. For identity and community nodes, this will always be the null hash **of all zeroes**
 - `id_desc` **Hash Descriptor**: the hash algorithm and digest size that should be used to compute this Node's Id
 - `depth` **Tree Depth**: the number of levels this node is from the root message in its tree. Root messages will be 0, their immediate child nodes should be 1.
+- `created` **Timestamp**: when this node was created.
 - `metadata` **Qualified Content**: TWIG data. Only valid if ContentType is TWIG.
 - `author` **Qualified Hash**: the id of the Identity node that signed this node
 - `signature` **Qualified Signature**: the actual binary signature of the node. The structure of this field varies by the type of key in the `author` field. The Content Type of this field should be a signature type of some kind.
@@ -79,6 +81,7 @@ Determine the values of these fields:
 - `parent`
 - `id_desc`
 - `depth`
+- `created`
 - `metadata`
 - `author`
 - all node-specific fields **order specified in the description of each node type**
