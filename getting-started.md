@@ -12,6 +12,14 @@ You'll need to install our current client program for Arbor. Right now, this req
 env GOPRIVATE=git.sr.ht GO111MODULE=on go get git.sr.ht/~whereswaldon/wisteria@latest
 ```
 
+You'll need Go's default installation directory in your `$PATH`:
+
+```shell
+export PATH="$PATH:$HOME/go/bin"
+```
+
+To make this permanent, add it to your shell's startup files.
+
 ## Setup
 
 Once you have the tools, we need to make a place to store your Arbor history. Any folder will do. If you're on Linux, a BSD, or macOS, just run:
