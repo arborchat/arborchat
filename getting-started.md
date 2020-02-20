@@ -20,17 +20,6 @@ export PATH="$PATH:$HOME/go/bin"
 
 To make this permanent, add it to your shell's startup files.
 
-## Setup
-
-Once you have the tools, we need to make a place to store your Arbor history. Any folder will do. If you're on Linux, a BSD, or macOS, just run:
-
-```shell
-mkdir ~/ArborHistory
-cd ~/ArborHistory
-```
-
-If you're on Windows, create a new folder and open `cmd.exe` there.
-
 ## Create your account
 
 An Arbor account is called an Identity. You'll need to have `gpg` installed for this part.
