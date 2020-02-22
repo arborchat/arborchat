@@ -1,32 +1,45 @@
 digraph forest {
-    rankdir=BT
-    IdentityA [rank=0,label="Identity: Alice"]
-    IdentityB [rank=0,label="Identity: Bob"]
-    CommunityA [rank=0,label="Community: Cryptography"]
-    CommunityB [rank=0,label="Community: Arbor"]
+	rankdir=BT
+	IdentityA [rank=0,label="Identity: Alice"]
+	IdentityB [rank=0,label="Identity: Bob"]
+	IdentityC [rank=0,label="Identity: Charlie"]
+	CommunityA [rank=0,label="Community: Code_Review"]
+	CommunityB [rank=0,label="Community: Arbor"]
 
-    ReplyA [rank=1,label="Hey all!"]
-    ReplyB [rank=1,label="Is P=NP?"]
-    ReplyC [rank=2,label="I hope not!"]
+	ReplyA [rank=1,label="Can I get some eyes on my PR?"]
+	ReplyB [rank=2,label="Looking"]
+	ReplyC [rank=2,label="Did you squash your commits this time?"]
+	ReplyF [rank=3,label="Thats not always necessary"]
+	ReplyD [rank=3,label="I'd love your feedback :)"]
+	ReplyE [rank=3,label="I did, yes."]
+	ReplyG [rank=4,label="Squash is life"]
 
-    ReplyD [rank=1,label="How does this work?"]
-    ReplyE [rank=2,label="Reply to any message"]
-    ReplyF [rank=2,label="Like this?"]
-    ReplyG [rank=3,label="You got it!"]
-    
-    ReplyA -> CommunityA
-    ReplyA -> IdentityA [label="author",color="gray",style="dashed"]
-    ReplyB -> CommunityA
-    ReplyB -> IdentityB [label="author",color="gray",style="dashed"]
-    ReplyC -> ReplyB
-    ReplyC -> IdentityA [label="author",color="gray",style="dashed"]
-    
-    ReplyD -> CommunityB
-    ReplyD -> IdentityA [label="author",color="gray",style="dashed"]
-    ReplyE -> ReplyD
-    ReplyE -> IdentityB [label="author",color="gray",style="dashed"]
-    ReplyF -> ReplyD
-    ReplyF -> IdentityA [label="author",color="gray",style="dashed"]
-    ReplyG -> ReplyF
-    ReplyG -> IdentityB [label="author",color="gray",style="dashed"]
+	ReplyH [rank=1,label="How does this work?"]
+	ReplyI [rank=2,label="Reply to any message"]
+	ReplyJ [rank=2,label="Like this?"]
+	ReplyK [rank=3,label="You got it!"]
+
+	ReplyA -> CommunityA
+	ReplyA -> IdentityA [label="author",color="gray",style="dashed"]
+	ReplyB -> ReplyA
+	ReplyB -> IdentityB [label="author",color="gray",style="dashed"]
+	ReplyC -> ReplyA
+	ReplyC -> IdentityC [label="author",color="gray",style="dashed"]
+	ReplyD -> ReplyB
+	ReplyD -> IdentityA [label="author",color="gray",style="dashed"]
+	ReplyE -> ReplyC
+	ReplyE -> IdentityA [label="author",color="gray",style="dashed"]
+	ReplyF -> ReplyC
+	ReplyF -> IdentityB [label="author",color="gray",style="dashed"]
+	ReplyG -> ReplyF
+	ReplyG -> IdentityC [label="author",color="gray",style="dashed"]
+
+	ReplyH -> CommunityB
+	ReplyH -> IdentityA [label="author",color="gray",style="dashed"]
+	ReplyI -> ReplyH
+	ReplyI -> IdentityB [label="author",color="gray",style="dashed"]
+	ReplyJ -> ReplyI
+	ReplyJ -> IdentityA [label="author",color="gray",style="dashed"]
+	ReplyK -> ReplyJ
+	ReplyK -> IdentityB [label="author",color="gray",style="dashed"]
 }
