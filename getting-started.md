@@ -6,19 +6,17 @@ It only takes a few steps to get connected in Arbor!
 
 ## Installation
 
-You'll need to install our current client program for Arbor. Right now, this requires [Go 1.13+](https://golang.org/dl/), though we are working to eliminate this dependency. To set everything up quickly, you can just run:
+You'll need to download our latest client program release for your operating system.
+You can find our releases listed [here](https://git.sr.ht/~whereswaldon/wisteria/refs). Choose the latest release (click on the version number) and then find the download for your Operating System. Here's how to choose:
 
-```shell
-env GOPRIVATE=git.sr.ht GO111MODULE=on go get git.sr.ht/~whereswaldon/wisteria@latest
-```
+- macOS: Choose the one with `macOS_x86_64` in the name
+- Windows: Choose the one with `windows_x86_64` in the name
+- Linux: Choose the one with `Linux_x86_64` in the name (unless you're on a different architecture like a raspberry pi)
 
-You'll need Go's default installation directory in your `$PATH`:
+Once you have the file, double-click it to extract the archive. You should be left with a folder that contains an exectuable file called `wisteria` (`wisteria.exe` on Windows).
 
-```shell
-export PATH="$PATH:$HOME/go/bin"
-```
-
-To make this permanent, add it to your shell's startup files.
+Move that exectuable file wherever you'd like. You just need to remember where so that
+you can navigate there in a terminal later on.
 
 ## Create your account
 
@@ -37,16 +35,14 @@ gpg --generate-key
 
 Follow the prompts. Any information that you include in these prompts will be part of your Arbor Identity, so be careful not to use an email address that you aren't willing to share (you can omit your email if you want to).
 
-Now we create your Arbor Identity by launching `wisteria`, our client program. From inside of your new `ArborHistory` directory, run:
+Now we create your Arbor Identity by launching `wisteria`, our client program. Open a terminal and navigate to the folder where you put the `wisteria` executable. Run:
 
-```shell
+```shell 
 # launch the client connected to our server infrastructure
-wisteria arbor.chat:7117
+./wisteria arbor.chat:7117
 ```
 
 Select "Create New Identity" and then select your new GPG key. You should be prompted to enter your key's passphrase in order to sign your new identity.
-
-Next you'll be asked to select an "Editor Command". This is the program that you will use to compose new messages. Choose the option that you like best (we're working to add a wider range of support for editors).
 
 ## Using Wisteria
 
@@ -54,11 +50,16 @@ You can use the arrow keys (or h/j/k/l) to scroll your cursor between messages. 
 
 You can filter the history to only messages related to the selected message (ancestors and descendants) by pressing the spacebar. Press it again to turn this filter off.
 
-To reply to the selected message, just hit Enter (or Return). This will open the Editor Command that you selected earlier. Type your reply in this editor, then *save and quit* the editor program. You may be prompted to enter your GPG key passphrase. After that, you should see your new message appear in `wisteria` and it will be sent to other connected relays.
+To reply to the selected message, just hit Enter (or Return). You may be prompted to enter your GPG key passphrase. After that, you should see your new message appear in `wisteria` and it will be sent to other connected relays.
 
 To start a new conversation (not related to your currently selected reply) press `c` instead of Enter. You compose your new message in the same way.
 
 You can see the `wisteria` log by pressing `L` (press it again to switch back to history).
+
+
+## Updating Wisteria
+
+Follow the directions for [installing wisteria](#Installation), then just launch it without generating a new GPG key.
 
 ## Going Further
 
