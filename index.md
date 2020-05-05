@@ -87,3 +87,4 @@ When the project started, we didn't know sourcehut existed. We really like some 
 ### Why make a new chat application? Isn't the market saturated enough?
 
 Sure; there are hundreds of other applications that do chat, and many of them are very good tools. Arbor's goal isn't to replace them all, but to demonstrate that there are other interesting ways to build chat.
+
