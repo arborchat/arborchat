@@ -6,8 +6,7 @@ It only takes a few steps to get connected in Arbor!
 
 ## Installation
 
-You'll need to download our latest client program release for your operating system.
-You can find our releases listed [here](https://git.sr.ht/~whereswaldon/wisteria/refs). Choose the latest release (click on the version number) and then find the download for your Operating System. Here's how to choose:
+You'll need to download the latest client version for your operating system from the [release page](https://git.sr.ht/~whereswaldon/wisteria/refs). Choose the most top list item (click on the version number) and then find the download link. Here's how to choose:
 
 - macOS: Choose the one with `macOS_x86_64` in the name
 - Windows: Choose the one with `windows_x86_64` in the name
@@ -37,7 +36,7 @@ Follow the prompts. Any information that you include in these prompts will be pa
 
 Now we create your Arbor Identity by launching `wisteria`, our client program. Open a terminal and navigate to the folder where you put the `wisteria` executable. Run:
 
-```shell 
+```shell
 # launch the client connected to our server infrastructure
 ./wisteria arbor.chat:7117
 ```
