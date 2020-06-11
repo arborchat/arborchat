@@ -32,7 +32,7 @@ This means that we can safely acquire Arbor nodes from any source and validate t
 
 The fact that Arbor nodes can be freely exchanged over any method of communication makes the ecosystem as a whole very flexible. During development, we have exchanged nodes via email, DropBox, Syncthing, http, and custom protocols. The great thing is that none of these methods are mutually exclusive with the others. This gives us the capability to build a robust system that can survive the failure of core components.
 
-Forest is specified [here](/specifications/forest.md), and we have a Go library for creating and manipulating nodes in the forest [here](https://git.sr.ht/~whereswaldon/forest-go).
+There is another doc for the [Forest specification](/specifications/forest.md), and we have a [Go library](https://git.sr.ht/~whereswaldon/forest-go) for creating and manipulating nodes in the Forest.
 
 ## Grove: chat history repository
 
@@ -45,7 +45,7 @@ Groves have to follow two simple rules in order to be valid:
 
 If this principle is obeyed, multiple programs can concurrently access the grove and can trust that insertions into the grove are valid.
 
-The existing implementation of the logic for managing a grove can be found in Go [here](https://git.sr.ht/~whereswaldon/forest-go/tree/master/grove).
+An existing implementation of the logic for managing a grove can be found in [~whereswaldon/forest-go](https://git.sr.ht/~whereswaldon/forest-go/tree/master/grove).
 
 ## Sprout: Simple Protocol Relaying Our Under-rated Trees
 
@@ -60,7 +60,7 @@ At a high level, the different sprout requests are:
 - Subscribe (or unsubscribe) to all updates to a given community
 - Notify a peer of a new set of nodes (if that peer is subscribed to the community in which they were created)
 
-The specification for Sprout lives [here](/specifications/sprout.md), and our current Go implementation is [here](https://git.sr.ht/~whereswaldon/sprout-go).
+For reference, there is a [specification for Sprout](/specifications/sprout.md) as well as a [Go implementation](https://git.sr.ht/~whereswaldon/sprout-go).
 
 ## Relay: a unit of Arbor network infrastructure
 
@@ -68,7 +68,7 @@ An Arbor "relay" is analogous to a server in traditional client-server architect
 
 We do not currently have any fancy algorithm for building optimal P2P meshes, but one might be introduced later. For now, we operate mostly in a semicentralized star topology where each Arbor user runs a local relay connected to a central relay on `sprout://arbor.chat:7117`. Over time we hope to expand the central infrastructure so that we can all connect to a set of peer relays that run in a geographically distributed fashion to ensure that they're unlikely to all go down at the same time. We also hope to build mechanisms for relays subscribed to similar communities to dynamically find and connect directly to one another.
 
-Our current Go relay implementation lives [here](https://git.sr.ht/~whereswaldon/sprout-go/cmd/relay).
+Here is the current [Go relay implementation](https://git.sr.ht/~whereswaldon/sprout-go/cmd/relay).
 
 ## Client: a tool for manipulating the Forest
 
@@ -76,4 +76,4 @@ There are many possible ways to visualize and interact with a tree-based chat ap
 
 We hope to explore many of the possibilities, and we encourage anyone with an idea for a new way to visualize the tree to try it out or describe it to us!
 
-Our current terminal client for Arbor is called `wisteria`. It's written in Go, and you can find it [here](https://git.sr.ht/~whereswaldon/wisteria).
+Our [current terminal client](https://git.sr.ht/~whereswaldon/wisteria) for Arbor is called `wisteria` and is written in Go.
