@@ -48,7 +48,7 @@ You can use the arrow keys (or h/j/k/l) to scroll your cursor between messages. 
 
 You can filter the history to only messages related to the selected message (ancestors and descendants) by pressing the spacebar. Press it again to turn this filter off.
 
-To reply to the selected message, just hit Enter (or Return). You may be prompted to enter your GPG key passphrase. After that, you should see your new message appear in `wisteria` and it will be sent to other connected relays.
+To reply to the selected message, just hit Enter (or Return), type your message, then press Enter (or Return) again. You may be prompted to enter your GPG key passphrase. After that, you should see your new message appear in `wisteria` and it will be sent to other connected relays.
 
 To start a new conversation (not related to your currently selected reply) press `c` instead of Enter. You compose your new message in the same way.
 
