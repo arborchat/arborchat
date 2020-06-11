@@ -41,7 +41,7 @@ Sprout messages that have a body of extra data after their header lines use one 
 
 ### Node ID Lines
 
-A *node_id_line* just contains an encoded node ID for an Arbor Forest node using the encoding described [here](./forest.md#encoding-node-ids).
+A *node_id_line* just contains an encoded node ID for an Arbor Forest node using the encoding described [here](https://man.sr.ht/%7Ewhereswaldon/arborchat/specifications/forest.md#encoding-node-ids).
 
 ```
 <node_id>
