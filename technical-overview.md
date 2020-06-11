@@ -23,10 +23,10 @@ Since every node is referenced by a hash of its contents and every node is signe
 
 Given a node from an *untrusted* source:
 
-- if we already have (and trust) the `author` node referenced in the new node:
-    - we can validate the signature of the node to ensure that it hasn't been tampered with since it was authored. If that validation passes, we can then be confident that not only is this node valid, but its parent node is also the node that was intended to be its parent. We can then fetch and validate each parent node until we reach nodes that we already have available to validate the entire history of the conversation up to the node we just received.
-- if we don't already have the `author` node referenced in the new node:
-    - we can ask other Arbor systems for its parent and author nodes (using their node IDs) and then we can validate that the data we get back is correct by hashing it ourselves. If we get back the author's Identity node from a peer and the hash is correct, we can then verify the signature to ensure that the node really was authored by the user with that Identity (we don't necessarily trust this user, but at least they control the keys that signed the message).
+- If we already have (and trust) the `author` node referenced in the new node:
+    - We can validate the signature of the node to ensure that it hasn't been tampered with since it was authored. If that validation passes, we can then be confident that not only is this node valid, but its parent node is also the node that was intended to be its parent. We can then fetch and validate each parent node until we reach nodes that we already have available to validate the entire history of the conversation up to the node we just received.
+- If we don't already have the `author` node referenced in the new node:
+    - We can ask other Arbor systems for its parent and author nodes (using their node IDs) and then we can validate that the data we get back is correct by hashing it ourselves. If we get back the author's Identity node from a peer and the hash is correct, we can then verify the signature to ensure that the node really was authored by the user with that Identity (we don't necessarily trust this user, but at least they control the keys that signed the message).
 
 This means that we can safely acquire Arbor nodes from any source and validate that they are either legitimate (if sent by trusted authors) or internally-consistent elaborate scams.
 
@@ -49,24 +49,24 @@ The existing implementation of the logic for managing a grove can be found in Go
 
 ## Sprout: Simple Protocol Relaying Our Under-rated Trees
 
-Sprout is a simple connection-oriented protocol for exchanging updates to the Forest. It uses a request-response architecture, but (unlike HTTP) you can make multiple requests on the same connection without waiting for responses. This allows sending many requests for different parts of the Forest and then waiting until the requested data becomes available.
+Sprout is a simple connection-oriented protocol for exchanging updates with the Forest. It uses a request-response architecture, but (unlike HTTP) you can make multiple requests on the same connection without waiting for responses. This allows sending many requests for different parts of the Forest and then waiting until the requested data becomes available.
 
 At a high level, the different sprout requests are:
 
-- list all recent nodes of a given type (identity, community, reply)
-- list all leaf nodes in the tree rooted at a given node
-- list all ancestory nodes of a given node
-- list the forest nodes that match a given set of node IDs
-- subscribe (or unsubscribe) to all updates to a given community
-- notify a peer of a new set of nodes (if that peer is subscribed to the community in which they were created)
+- List all recent nodes of a given type (identity, community, reply)
+- List all leaf nodes in the tree rooted at a given node
+- List all ancestor nodes of a given node
+- List the Forest nodes that match a given set of node IDs
+- Subscribe (or unsubscribe) to all updates to a given community
+- Notify a peer of a new set of nodes (if that peer is subscribed to the community in which they were created)
 
 The specification for Sprout lives [here](/specifications/sprout.md), and our current Go implementation is [here](https://git.sr.ht/~whereswaldon/sprout-go).
 
-## Relay: a unit of arbor network infrastructure
+## Relay: a unit of Arbor network infrastructure
 
-An Arbor "relay" is analagous to a server in traditional client-server architectures, but our relays are designed to be used more widely than as soley server-side infrastructure. Relays speak Sprout, and can both listen on a local address and connect to a set of peer relays. This means that they can both act as a server and connect to a group of other servers in a mesh topology.
+An Arbor "relay" is analogous to a server in traditional client-server architectures, but our relays are designed to be used more widely than as solely server-side infrastructure. Relays speak Sprout, and can both listen on a local address and connect to a set of peer relays. This means that they can both act as a server and connect to a group of other servers in a mesh topology.
 
-We do not currently have any fancy algorithm for building optimal p2p meshes, but one might be introduced later. For now, we operate mostly in a semicentralized star topology where each Arbor user runs a local relay connected to a central relay on sprout://arbor.chat:7117. Over time we hope to expand the central infrastructure so that we can all connect to a set of peer relays that run in a geographically distributed fashion to ensure that they're unlikely to all go down at the same time. We also hope to build mechanisms for relays subscribed to similar communities to dynamically find and connnect directly to one another.
+We do not currently have any fancy algorithm for building optimal P2P meshes, but one might be introduced later. For now, we operate mostly in a semicentralized star topology where each Arbor user runs a local relay connected to a central relay on `sprout://arbor.chat:7117`. Over time we hope to expand the central infrastructure so that we can all connect to a set of peer relays that run in a geographically distributed fashion to ensure that they're unlikely to all go down at the same time. We also hope to build mechanisms for relays subscribed to similar communities to dynamically find and connect directly to one another.
 
 Our current Go relay implementation lives [here](https://git.sr.ht/~whereswaldon/sprout-go/cmd/relay).
 
