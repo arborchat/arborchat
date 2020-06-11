@@ -10,9 +10,9 @@ this document specifies its structure.
 
 ## Definitions
 
-- Node - any element in one of the trees in the arbor forest.
-- Id - the cryptographic hash of the data in a Node is its Id. Each node type specifies the exact method needed to compute its Id correctly.
-- Root Node - any Node with no parent (parent Id is the Null Hash)
+- Node - any element in one of the trees in the Arbor forest.
+- Id - the cryptographic hash of the data in a Node is its ID. Each node type specifies the exact method needed to compute its ID correctly.
+- Root Node - any Node with no parent (parent ID is the Null Hash)
 - Conversation Node - a Reply node that is the direct child of a Community. It is the root of a subtree of Reply nodes, and can be identified by being at Depth 1 and having the Null Hash as a `conversation_id`.
 
 ## Nodes
@@ -34,10 +34,10 @@ The Arbor Forest uses a number of common field types with specific meanings. The
 - **Hash Type**: an 8-bit unsigned integer representing a particular hash algorithm. Possible values:
   - 0: Null Hash, this indicates that this is not a hash value and it has no data content whatsoever. If this NodeType shows up in a Qualified Hash, it will have length of 0 and (correspondingly) no data bytes whatsoever.
   - 1: SHA256
-- **Content Type**: an 8-bit unsigned integer representing a particular content structure (analagous to a MIME type). Valid values are:
+- **Content Type**: an 8-bit unsigned integer representing a particular content structure (analogous to a MIME type). Valid values are:
   - 0: binary, unknown
   - 1: UTF8 text
-  - 2: TWIG (a simple key-value format described later in this document).
+  - 2: [TWIG](#twig) (a simple key-value format described later in this document).
 - **Key Type**: an 8-bit unsigned integer representing kind of public key. Valid values are:
   - 1: OpenPGP RSA Public Key
 - **Signature Type**: an 8-bit unsigned integer representing a kind of cryptographic signature. Valid values are:
@@ -61,14 +61,14 @@ All nodes in the forest share some fields. These are described generally here, t
 Common fields:
 
 - `version` **SchemaVersion**: the version of the node schema in use.
-- `node_type` **Node Type**: the type of the node within the forest.
-- `parent` **Qualified Hash**: the hash of the parent tree node. For identity and community nodes, this will always be the null hash **of all zeroes**
-- `id_desc` **Hash Descriptor**: the hash algorithm and digest size that should be used to compute this Node's Id
+- `node_type` **Node Type**: the type of the node within the Forest.
+- `parent` **Qualified Hash**: the hash of the parent tree node. For Identity and Community nodes, this will always be the null hash **of all zeroes**
+- `id_desc` **Hash Descriptor**: the hash algorithm and digest size that should be used to compute this Node's ID
 - `depth` **Tree Depth**: the number of levels this node is from the root message in its tree. Root messages will be 0, their immediate child nodes should be 1.
 - `created` **Timestamp**: when this node was created.
-- `metadata` **Qualified Content**: TWIG data. Only valid if ContentType is TWIG.
-- `author` **Qualified Hash**: the id of the Identity node that signed this node
-- `signature` **Qualified Signature**: the actual binary signature of the node. The structure of this field varies by the type of key in the `author` field. The Content Type of this field should be a signature type of some kind.
+- `metadata` **Qualified Content**: [TWIG](#twig) data. Only valid if ContentType is TWIG.
+- `author` **Qualified Hash**: the ID of the Identity node that signed this node
+- `signature` **Qualified Signature**: the actual binary signature of the node. The structure of this field varies by the type of key in the `author` field. The ContentType of this field should be a signature type of some kind.
 
 ### Common Structure
 
@@ -90,38 +90,38 @@ Write them into a buffer in the order above, with all integers written in networ
 
 Sign the contents of the buffer using the key pointed to by `author`, and use it to create the value of `signature`.
 
-Concatenate the value of `signature` to the end of the existing buffer, then hash the entire buffer with the algorithm and digest size specified by `id_desc` to determine the node's actual Id.
+Concatenate the value of `signature` to the end of the existing buffer, then hash the entire buffer with the algorithm and digest size specified by `id_desc` to determine the node's actual ID.
 
 ### Identity
 
-An identity node has the following fields:
+An Identity node has the following fields:
 
-- `name` **Qualified Content**: Must be of type UTF8. The name of the user who controls this key. Maximum length (in bytes) is 256.
+- `name` **Qualified Content**: must be of type UTF8. The name of the user who controls this key. Maximum length (in bytes) is 256.
 - `public_key` **Qualified Key**: the binary representation of the public key
 
 These fields should be processed in the order given above when signing and hashing the node.
- 
+
 ### Community
 
 A Community node has the following fields:
 
-- `name` **Qualified Content**: Must be of type UTF8. The name of the user who controls this key. Maximum length (in bytes) is 256.
+- `name` **Qualified Content**: must be of type UTF8. The name of the user who controls this key. Maximum length (in bytes) is 256.
 
 These fields should be processed in the order given above when signing and hashing the node.
- 
+
 ### Reply
 
 A Reply node has the following fields:
 
-- `community_id` **Qualified Hash**: The node ID of the community node at the root of the tree containing this reply.
-- `conversation_id` **Qualified Hash**: The node ID of the first reply node in the ancestry of this reply (depth 1).
-- `content` **Qualified Content**: The message content.
+- `community_id` **Qualified Hash**: the node ID of the community node at the root of the tree containing this reply.
+- `conversation_id` **Qualified Hash**: the node ID of the first reply node in the ancestry of this reply (depth 1).
+- `content` **Qualified Content**: the message content.
 
 These fields should be processed in the order given above when signing and hashing the node.
 
 ## TWIG
 
-Twig is a simple data format for key-value pairs of data.
+TWIG is a simple data format for key-value pairs of data.
 
 Keys and values are separated by NULL
 bytes (bytes of value 0). Keys and values may not contain a NULL byte.
@@ -134,10 +134,10 @@ format) by a delimiter, which is currently '/'.
 
 The key name may not be empty, but values may be empty. Empty values must still be surrounded by NULL bytes.
 
-In practice, twig keys look like (the final slash is the delimiter between key
+In practice, TWIG keys look like (the final slash is the delimiter between key
 and version):
 
-| Twig Key                 | Key name               | Key Version |
+| TWIG Key                 | Key name               | Key Version |
 | ---                      | ---                    | ---         |
 | anexample/235            | anexample              | 235         |
 | heres one with spaces/9  | heres one with spaces  | 9           |
