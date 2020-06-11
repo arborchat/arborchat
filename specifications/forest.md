@@ -33,7 +33,7 @@ The Arbor Forest uses a number of common field types with specific meanings. The
   - 3: Reply
 - **Hash Type**: an 8-bit unsigned integer representing a particular hash algorithm. Possible values:
   - 0: Null Hash, this indicates that this is not a hash value and it has no data content whatsoever. If this NodeType shows up in a Qualified Hash, it will have length of 0 and (correspondingly) no data bytes whatsoever.
-  - 1: SHA256
+  - 1: SHA512
 - **Content Type**: an 8-bit unsigned integer representing a particular content structure (analogous to a MIME type). Valid values are:
   - 0: binary, unknown
   - 1: UTF8 text
@@ -118,6 +118,20 @@ A Reply node has the following fields:
 - `content` **Qualified Content**: the message content.
 
 These fields should be processed in the order given above when signing and hashing the node.
+
+## Encoding Node IDs
+
+Often applications will want to represent Arbor node IDs as strings. The recommended string encoding for a node ID is the following components concatenated:
+
+- Hash algorithm prefix
+- Underscore delimiter
+- Size of hash digest in bytes (prefixed by a `B`)
+- Double underscore delimiter
+- Hash digest value in base64url encoding
+
+An example of such a string encoding is: `SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk`
+
+Values of this form can be decoded by breaking them at the first occurrence of a double underscore, then decoding the component before it to determine the algorithm and length. The data following the double underscore (when base64url-decoded) should be the length specified after the `B` prefix (implementations should check this).
 
 ## TWIG
 
