@@ -3,7 +3,7 @@ title: Sprout Protocol 0.0 Specification
 ---
 
 Sprout is a simple connection-oriented protocol for exchanging nodes
-in the arbor forest (as defined by the [arbor forest specification](forest.md)).
+in the Arbor Forest (as defined by the [Arbor Forest specification](forest.md)).
 
 Protocol requires an underlying transport that is connection-oriented and supports reliable delivery.
 
@@ -15,11 +15,11 @@ Sprout is an exchange of *messages*, where either side can send any message type
 
 There are two types of *message*, *requests* and *responses*. Each *request* will have one *response*.
 
-All *message header lines* begin with a plaintext *verb* indicating what kind of *message* they are. 
+All *message header lines* begin with a plaintext *verb* indicating what kind of *message* they are.
 
-There is no requirement to wait for a *response* before sending another *request*. Either party may choose to *respond* with an [error status](#status) message if the sprout implementation cannot handle a sufficient number of in-flight requests.
+There is no requirement to wait for a *response* before sending another *request*. Either party may choose to *respond* with an [error status](#status) message if the Sprout implementation cannot handle a sufficient number of in-flight requests.
 
-In *request messages*, the second whitespace-delimited element of the header line is a *message id*, which is a monotonically increasing unsigned integer (in decimal notation) that MUST be unique for the lifetime of the sprout connection. Most *messages* have different headers after the *message id*.
+In *request messages*, the second whitespace-delimited element of the header line is a *message ID*, which is a monotonically increasing unsigned integer (in decimal notation) that MUST be unique for the lifetime of the Sprout connection. Most *messages* have different headers after the *message ID*.
 
 ```
 <verb> <message_id> [<header> ...]
@@ -27,7 +27,7 @@ In *request messages*, the second whitespace-delimited element of the header lin
 ...
 ```
 
-In a *response message*, the second whitespace-delimited element of the header line is a *target message id*, which indicates which *request message* the response corresponds to.
+In a *response message*, the second whitespace-delimited element of the header line is a *target message ID*, which indicates which *request message* the response corresponds to.
 
 ```
 <verb> <target_message_id> [<header> ...]
@@ -41,7 +41,7 @@ Sprout messages that have a body of extra data after their header lines use one 
 
 ### Node ID Lines
 
-A *node_id_line* just contains a base64url-encoded Node ID for an Arbor Forest node.
+A *node_id_line* just contains a base64url-encoded node ID for an Arbor Forest node.
 
 ```
 <node_id>
@@ -49,7 +49,7 @@ A *node_id_line* just contains a base64url-encoded Node ID for an Arbor Forest n
 
 ### Full Node Lines
 
-A *full_node_line* contains an Arbor Forest Node ID followed by the base64url-encoded value of that entire Arbor Forest Node.
+A *full_node_line* contains an Arbor Forest node ID followed by the base64url-encoded value of that entire Arbor Forest Node.
 
 ```
 <node_id> <node>
@@ -60,7 +60,7 @@ A *full_node_line* contains an Arbor Forest Node ID followed by the base64url-en
 
 ### Version
 
-The version *message* is an advertisment of the sender's protocol version. It is intended to indicate to the other end of the connection what messages are understood.
+The version *message* is an advertisement of the sender's protocol version. It is intended to indicate to the other end of the connection what messages are understood.
 
 #### Message Structure
 
@@ -81,7 +81,7 @@ version <message_id> <version number>
 version 1 0.0
 ```
 
-An advertisment that the local client supports only the current unstable protocol version.
+An advertisement that the local client supports only the current unstable protocol version.
 
 ### List
 
@@ -94,7 +94,7 @@ list <message_id> <node_type> <quantity>
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
-- `node_type` should one of the arbor forest node types defined [here](forest.md) as a decimal integer.
+- `node_type` should one of the Arbor Forest node types defined [here](forest.md) as a decimal integer.
 - `quantity` should be the number of nodes requested. The response is guaranteed to have less than or equal to this many elements.
 
 #### Possible Responses
@@ -110,9 +110,9 @@ list 5 1 10
 
 A request for ten community nodes.
 
-### Query 
+### Query
 
-The `query` *message* requests a list of specific nodes. This is useful when looking up specific node values (like when resolving the authors of reply nodes).
+The `query` *message* requests a list of specific nodes. This is useful when looking up specific node values (like when resolving the authors of Reply nodes).
 
 #### Message Structure
 
@@ -123,7 +123,7 @@ query <message_id> <count>
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
-- `count` should be the number of *node ids* that follow the header row (one per line).
+- `count` should be the number of *node IDs* that follow the header row (one per line).
 - `node_id_line` is described in [the section on Node ID Lines](#node-id-lines)
 
 #### Possible Responses
@@ -142,7 +142,7 @@ SHA512_B32__d2XDjNrF03bFAUP6V_Nou1O28n9V1nWCWyvPdO5C0co
 
 ### Ancestry
 
-The `ancestry` *message* requests the nodes prior to a list of nodes within the arbor forest up to a specified depth. This is useful when looking up the history of a collection of leaf nodes.
+The `ancestry` *message* requests the nodes prior to a list of nodes within the Arbor Forest up to a specified depth. This is useful when looking up the history of a collection of Leaf nodes.
 
 #### Message Structure
 
@@ -151,9 +151,9 @@ ancestry <message_id> <node_id> <levels>
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
-- `node_id` is the id of the node whose ancestry is being requested.
+- `node_id` is the ID of the node whose ancestry is being requested.
 - `levels` is the desired number of levels of ancestry.
- 
+
 #### Possible Responses
 
 - `response`
@@ -165,11 +165,11 @@ ancestry <message_id> <node_id> <levels>
 ancestry 44 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk 3
 ```
 
-A request for three levels of ancestry for the listed node id.
+A request for three levels of ancestry for the listed node ID.
 
 ### Leaves Of
 
-The `leaves_of` *message* requests the a quantity of recent leaf nodes in the subtree rooted at a specific node. This is useful for discovering recent conversations when you join a relay.
+The `leaves_of` *message* requests a quantity of recent Leaf nodes in the subtree rooted at a specific node. This is useful for discovering recent conversations when you join a relay.
 
 #### Possible Responses
 
@@ -183,8 +183,8 @@ leaves_of <message_id> <node_id> <quantity>
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
-- `node_id` is the id of the node that roots the subtree for which this message is querying leaves.
-- `quantity` should be the number of leaf nodes desired in the response.
+- `node_id` is the ID of the node that roots the subtree for which this message is querying leaves.
+- `quantity` should be the number of Leaf nodes desired in the response.
 
 #### Example
 
@@ -192,7 +192,7 @@ leaves_of <message_id> <node_id> <quantity>
 leaves_of 101 SHA512_B32__CZMk9Gv5g4GYNAPcdvwkDNITsfYFFsTu95jM5Fe4Ekk 45
 ```
 
-A request for the 45 most recent leaf nodes of the given node.
+A request for the 45 most recent Leaf nodes of the given node.
 
 ### Subscribe
 
@@ -285,7 +285,7 @@ response <target_message_id> <count>
 ...
 ```
 
-- `target_message_id` is the message id of the request message that this responds to.
+- `target_message_id` is the message ID of the request message that this responds to.
 - `count` should be the number of *node lines* that follow the header row (one per line).
 - `full_node_line` is described in [the section on Full Node Lines](#full-node-lines).
 
@@ -310,7 +310,7 @@ The `status` *message* indicates the success or failure of a previous request.
 status <target_message_id> <status_code>
 ```
 
-- `target_message_id` is the message id of the request message that this responds to.
+- `target_message_id` is the message ID of the request message that this responds to.
 - `error_code` is one of the codes listed in [Error Codes](#error-codes).
 
 #### Example
@@ -343,7 +343,7 @@ This message indicates that the request with `message_id` 44 referred to a node 
         the request was successful
         </td>
     </tr>
-    
+
     <tr>
         <td>
         1
@@ -355,7 +355,7 @@ This message indicates that the request with `message_id` 44 referred to a node 
         the request was not structurally valid in this protocol version
         </td>
     </tr>
-    
+
     <tr>
         <td>
         2
@@ -367,7 +367,7 @@ This message indicates that the request with `message_id` 44 referred to a node 
         the requested protocol version is too old
         </td>
     </tr>
-    
+
     <tr>
         <td>
         3
@@ -379,7 +379,7 @@ This message indicates that the request with `message_id` 44 referred to a node 
         the requested protocol version is too new
         </td>
     </tr>
-    
+
     <tr>
         <td>
         4
@@ -388,7 +388,7 @@ This message indicates that the request with `message_id` 44 referred to a node 
         Unknown Node
         </td>
         <td>
-        the request refers to a forest node that is not known
+        the request refers to a Forest node that is not known
         </td>
     </tr>
   </tbody>
@@ -415,5 +415,5 @@ peer2 -> peer1: response | status
 
 Encoding:
 
-- node ids are their base64url versions (produced by MarshalText)
-- ndoes are their base64url encoded binary format (produced by MarshalBinary
+- node IDs are their base64url versions (produced by MarshalText)
+- nodes are their base64url encoded binary format (produced by MarshalBinary
