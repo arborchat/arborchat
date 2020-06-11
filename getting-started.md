@@ -12,10 +12,9 @@ You'll need to download the latest client version for your operating system from
 - Windows: Choose the one with `windows_x86_64` in the name
 - Linux: Choose the one with `Linux_x86_64` in the name (unless you're on a different architecture like a raspberry pi)
 
-Once you have the file, double-click it to extract the archive. You should be left with a folder that contains an exectuable file called `wisteria` (`wisteria.exe` on Windows).
+Once you have the file, unpack the archive. This can generally be accomplished by double-clicking it in your file manager. You should be left with a folder that contains an executable file called `wisteria` (`wisteria.exe` on Windows).
 
-Move that exectuable file wherever you'd like. You just need to remember where so that
-you can navigate there in a terminal later on.
+Move that executable file wherever you'd like. You just need to remember where so that you can navigate there in a terminal later on.
 
 ## Create your account
 
