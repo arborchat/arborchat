@@ -94,7 +94,7 @@ list <message_id> <node_type> <quantity>
 ```
 
 - `message_id` should be a unique unsigned integer that has not been sent to the remote side of the connection before.
-- `node_type` should one of the Arbor Forest node types defined [here](forest.md) as a decimal integer.
+- `node_type` should be one of the [Arbor Forest node types](forest.md) defined as a decimal integer.
 - `quantity` should be the number of nodes requested. The response is guaranteed to have less than or equal to this many elements.
 
 #### Possible Responses
