@@ -41,7 +41,7 @@ Sprout messages that have a body of extra data after their header lines use one 
 
 ### Node ID Lines
 
-A *node_id_line* just contains a base64url-encoded node ID for an Arbor Forest node.
+A *node_id_line* just contains an encoded node ID for an Arbor Forest node using the encoding described [here](./forest.md#encoding-node-ids).
 
 ```
 <node_id>
@@ -49,7 +49,7 @@ A *node_id_line* just contains a base64url-encoded node ID for an Arbor Forest n
 
 ### Full Node Lines
 
-A *full_node_line* contains an Arbor Forest node ID followed by the base64url-encoded value of that entire Arbor Forest Node.
+A *full_node_line* contains an Arbor Forest node ID (encoded as in [Node ID Lines](#node-id-lines)) followed by the base64url-encoded value of that entire Arbor Forest Node.
 
 ```
 <node_id> <node>
@@ -396,24 +396,37 @@ This message indicates that the request with `message_id` 44 referred to a node 
 
 ## Procedure:
 
+An example of the sequence of messages echanged by an Arbor client and an Arbor relay.
+
+The `|` symbol denotes "OR", and is used to indicate that one of several messages may be sent.
+
 ```
-client -> server: version
-server -> client: version | status (unsupported)
+# check version compatibility
+client -> relay: version
+client <- relay: version | status (unsupported)
 
-client -> server: list communities
-server -> client: response (of communities) | status (error)
+# check which communities are available
+client -> relay: list communities
+client <- relay: response (of communities) | status (error)
 
-client -> server: unsubscribe | subscribe (to communities)
-server -> client: status
+# subscribe to relevant communities
+client -> relay: unsubscribe | subscribe (to communities)
+client <- relay: status
 
-peer1 -> peer2: announce
-peer2 -> peer1: status
+# client fills out message history by querying for past nodes
+client -> relay: list | leaves_of | query | ancestry
+client <- relay: response | status
 
-peer1 -> peer2: list | leaves_of | query | ancestry
-peer2 -> peer1: response | status
+# announce new nodes authored by the client
+client -> relay: announce
+client <- relay: status
+
+# announce new nodes discovered by the relay
+client <- relay: announce
+client -> relay: status
+
+# client leaves a community
+client -> relay: unsubscribe
+client <- relay: status
+
 ```
-
-Encoding:
-
-- node IDs are their base64url versions (produced by MarshalText)
-- nodes are their base64url encoded binary format (produced by MarshalBinary
