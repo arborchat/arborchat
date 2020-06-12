@@ -44,18 +44,6 @@ For the new implementation, we have:
 - [sprout-go](https://git.sr.ht/~whereswaldon/sprout-go): a library for speaking the sprout protocol (our simple node exchange protocol).
 - sinensis: the reference arbor relay implementation (relays are like servers in a conventional system, except that everybody runs one). The code for this currently lives [here](https://git.sr.ht/~whereswaldon/sprout-go/tree/relay/cmd/relay), but will be moved into its own repo once it reaches a point of maturity.
 
-For our proof-of-concept implementation, there is:
-
-- [protocol](https://github.com/arborchat/protocol): a specification of the protocol
-- [arbor-go](https://github.com/arborchat/arbor-go): a golang implementation of the protocol
-- [server](https://github.com/arborchat/server): a simple arbor server
-- [muscadine](https://github.com/arborchat/muscadine): a terminal arbor client
-- [trellis](https://git.sr.ht/~whereswaldon/trellis): a (poorly made) experiment at building a web UI for arbor
-- [kudzu](https://github.com/arborchat/kudzu): a test program that replies with long random messages
-- [ivy](https://github.com/arborchat/ivy): an old test client
-- [pergola](https://github.com/arborchat/pergola): the first arbor chat client; has a terrible UX
-- [yggdrasil](https://github.com/arborchat/yggdrasil): an arbor chat client in C
-
 ## Get Involved
 
 If you'd like to keep up with what's going on in Arbor or to help us build it, you can:
