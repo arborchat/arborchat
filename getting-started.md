@@ -4,60 +4,37 @@ title: Getting Started with Arbor
 
 It only takes a few steps to get connected in Arbor!
 
-## Installation
+# Installation
+[Sprig](https://git.sr.ht/~whereswaldon/sprig) is currently the best way to experience Arbor but there is also a CLI client called `wisteria` for which there is a separate [getting started guide](./getting-started-cli.md). To download the latest version, head tot he [release page](https://git.sr.ht/~whereswaldon/sprig/refs). Choose the topmost list item (click the version number) then find your download link. The Windows release will have `windows` in the file name, Linux will have `linux`, and so on.
 
-You'll need to download the latest client version for your operating system from the [release page](https://git.sr.ht/~whereswaldon/wisteria/refs). Choose the most top list item (click on the version number) and then find the download link. Here's how to choose:
+If you're on Android, there is also an APK that can be downloaded and installed. However, you'll need to have your phone in developer mode, installation from unknown sources enabled, etc. If you don't, don't worry about it and simply wait until it's released in [F-Droid](https://f-droid.org/) or Google Play. A version for iOS is in the works.
 
-- macOS: Choose the one with `macOS_x86_64` in the name
-- Windows: Choose the one with `windows_x86_64` in the name
-- Linux: Choose the one with `Linux_x86_64` in the name (unless you're on a different architecture like a raspberry pi)
-
-Once you have the file, unpack the archive. This can generally be accomplished by double-clicking it in your file manager. You should be left with a folder that contains an executable file called `wisteria` (`wisteria.exe` on Windows).
-
-Move that executable file wherever you'd like. You just need to remember where so that you can navigate there in a terminal later on.
+Once you have the file, unpack the archive. This can generally be accomplished by double-clicking it in your file manager or you can just use `tar xvf <file-name>` from the Linux or macOS command line. You'll be left with a single executable named `sprig`. Move that wherever you'd like but remember its location for later.
 
 ## Create your account
 
-An Arbor account is called an Identity. You'll need to have `gpg` installed for this part.
+An Arbor account is called an Identity and creation is quite simple. Open a terminal, navigate to the folder where you put the `sprig` executable, and double-click it. Confirm that messages are immutable then enter `arbor.chat:7117` and click `Connect`. Make sure you *don't* press enter as that will currently insert a newline character and the connection will fail. After typing the address, just click the button.
 
-- Linux users should almost certainly already have `gpg`. Try `which gpg` to check. If you don't have it, check your distribution's documentation for installation instructions.
-- BSD users can check their OS documentation for the correct installation instructions.
-- macOS users can install `gpg` with [`homebrew`](https://brew.sh/) by running `brew install gpg`.
-- Windows users can install [`gpg4win`](https://www.gpg4win.org/).
+On the next screen, select "Create new Identity", enter your desired username, then click `Create`. From there, simply click `View These Communities`!
 
-Now we need to generate a GPG key. If you already have one, you can skip this part.
+## Using Sprig
 
-```shell
-gpg --generate-key
-```
+By default, all messages are **unselected**. When you tap one, it becomes **selected** and its ancestors and children will be a darker colour. To the right of the selected message, there is a `Reply` button. Clicking that will reveal a dialogue at the bottom of the screen where you can type your reply. The clipboard to the left of the text entry field is for pasting text from your clipboard and the button to the right is for sending the message. Clicking the `×` in the top right of that dialogue will dismiss it.
 
-Follow the prompts. Any information that you include in these prompts will be part of your Arbor Identity, so be careful not to use an email address that you aren't willing to share (you can omit your email if you want to).
+At the top of the message view, there are four buttons.
 
-Now we create your Arbor Identity by launching `wisteria`, our client program. Open a terminal and navigate to the folder where you put the `wisteria` executable. Run:
+- Back
+  - Simply used to return to the main screen
+- Copy
+  - Copy the selected message
+- Filter
+  - Only display messages that are direct parents or children of the selected message
+- New conversation
+  - This is used to create a new conversation, a message at the root of the tree with no ancestry
 
-```shell
-# launch the client connected to our server infrastructure
-./wisteria arbor.chat:7117
-```
+## Updating Sprig
 
-Select "Create New Identity" and then select your new GPG key. You should be prompted to enter your key's passphrase in order to sign your new identity.
-
-## Using Wisteria
-
-You can use the arrow keys (or h/j/k/l) to scroll your cursor between messages. The red message is "selected," and determines the coloration of all other visible messages. Yellow messages are "ancestors" of the selected message (it is a reply to them), whereas green messages are "descendants" of the selected message.
-
-You can filter the history to only messages related to the selected message (ancestors and descendants) by pressing the spacebar. Press it again to turn this filter off.
-
-To reply to the selected message, just hit Enter (or Return), type your message, then press Enter (or Return) again. You may be prompted to enter your GPG key passphrase. After that, you should see your new message appear in `wisteria` and it will be sent to other connected relays.
-
-To start a new conversation (not related to your currently selected reply) press `c` instead of Enter. You compose your new message in the same way.
-
-You can see the `wisteria` log by pressing `L` (press it again to switch back to history).
-
-
-## Updating Wisteria
-
-Follow the directions for [installing wisteria](#Installation), then just launch it without generating a new GPG key.
+Simply follow the directions for [installing Sprig](#Installation) then just launch it. Feel free to delete the old binary if you wish.
 
 ## Going Further
 
