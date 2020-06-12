@@ -32,7 +32,7 @@ This means that we can safely acquire Arbor nodes from any source and validate t
 
 The fact that Arbor nodes can be freely exchanged over any method of communication makes the ecosystem as a whole very flexible. During development, we have exchanged nodes via email, DropBox, Syncthing, http, and custom protocols. The great thing is that none of these methods are mutually exclusive with the others. This gives us the capability to build a robust system that can survive the failure of core components.
 
-There is another doc for the [Forest specification](/specifications/forest.md), and we have a [Go library](https://git.sr.ht/~whereswaldon/forest-go) for creating and manipulating nodes in the Forest.
+There is another doc for the [Forest specification](./specifications/forest.md), and we have a [Go library](https://git.sr.ht/~whereswaldon/forest-go) for creating and manipulating nodes in the Forest.
 
 ## Grove: chat history repository
 
@@ -60,7 +60,7 @@ At a high level, the different sprout requests are:
 - Subscribe (or unsubscribe) to all updates to a given community
 - Notify a peer of a new set of nodes (if that peer is subscribed to the community in which they were created)
 
-For reference, there is a [specification for Sprout](/specifications/sprout.md) as well as a [Go implementation](https://git.sr.ht/~whereswaldon/sprout-go).
+For reference, there is a [specification for Sprout](./specifications/sprout.md) as well as a [Go implementation](https://git.sr.ht/~whereswaldon/sprout-go).
 
 ## Relay: a unit of Arbor network infrastructure
 
