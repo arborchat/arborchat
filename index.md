@@ -22,7 +22,11 @@ Arbor messages track what you were responding to when you wrote them. Every mess
 
 If you think about it, most things you say in a conversation are a response to what someone else just said. Arbor simply captures that information and uses it to help you make sense of very large conversations. Ever get confused when many people respond to a message at around the same time? Arbor makes that situation coherent.
 
-Are you technically inclined? You may be interested in our [technical overview](./technical-overview.md), which digs a lot deeper into the parts of Arbor and how they work.
+![visualisation of some Arbor nodes](./diagrams/Simple_Forest_Light.png)
+
+Note the flow of the conversation on the left and how it appears that Bob is saying he's looking to see if Alice squashed her commits. She then replies and says yes, she would love his feedback. Then Bob says that feedback is not always necessary and Charlie chimes in with a seemingly random reply at the bottom. Compare that to the view on the right where each message is a reply to another and it's much clearer that there are actually 4 conversations going on simultaneously: Bob looking at Alice's PR, Charlie asking if her commits were squashed, Alice confirming that they were, and Bob saying that squashing commits is not always necessary. Without the context parents and children provide, it's much more difficult to determine how a conversation actually played out.
+
+If you're technically inclined, you may be interested in the more [technical overview](./technical-overview.md), which digs a lot deeper into the parts of Arbor and how they work.
 
 # Want to try it?
 

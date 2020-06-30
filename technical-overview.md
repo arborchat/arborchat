@@ -13,9 +13,9 @@ Trees are rooted at either an "Identity" or "Community" node. Identity nodes rep
 
 The final node type is a "Reply" node. Reply nodes are messages to other users, and they are child nodes of either other Reply nodes or Community nodes.
 
-Here's an example of the relationship between the three kinds of nodes. A node's parent is indicated by a solid line pointing at its parent, and a node's author (the identity which created it) is indicated by a dashed gray line.
+Here's a comparison between conventional linear chat (left) and Arbor (right). Differing from the simpler diagram on the overview page, this one includes references to the reply's author node and is more technically accurate.
 
-![embedded visualization of some arbor nodes](https://git.sr.ht/~whereswaldon/arborchat/blob/master/graphviz-rendered/example-forest.dot.png)
+![embedded visualization of some arbor nodes](./diagrams/Technical_Forest_Light.png)
 
 Every node is referenced by a "node ID" that is a cryptographic hash of that node's content. Every node has a node ID for its own parent and author embedded inside of itself. Additionally, every node is signed by the public key embedded within its author Identity node.
 
