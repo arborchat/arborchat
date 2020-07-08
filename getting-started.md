@@ -5,7 +5,7 @@ title: Getting Started with Arbor
 It only takes a few steps to get connected in Arbor!
 
 # Installation
-[Sprig](https://git.sr.ht/~whereswaldon/sprig) is currently the best way to experience Arbor but there is also a CLI client called `wisteria` for which there is a separate [getting started guide](./getting-started-cli.md). To download the latest version, head tot he [release page](https://git.sr.ht/~whereswaldon/sprig/refs). Choose the topmost list item (click the version number) then find your download link. The Windows release will have `windows` in the file name, Linux will have `linux`, and so on.
+[Sprig](https://git.sr.ht/~whereswaldon/sprig) is currently the best way to experience Arbor but there is also a CLI client called `wisteria` for which there is a separate [getting started guide](./getting-started-cli.md). To download the latest version, head to the [release page](https://git.sr.ht/~whereswaldon/sprig/refs). Choose the topmost list item (click the version number) then find your download link. The Windows release will have `windows` in the file name, Linux will have `linux`, and so on.
 
 If you're on Android, there is also an APK that can be downloaded and installed. However, you'll need to have your phone in developer mode, installation from unknown sources enabled, etc. If you don't, don't worry about it and simply wait until it's released in [F-Droid](https://f-droid.org/) or Google Play. A version for iOS is in the works.
 
