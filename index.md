@@ -22,7 +22,7 @@ Arbor messages track what you were responding to when you wrote them. Every mess
 
 If you think about it, most things you say in a conversation are a response to what someone else just said. Arbor simply captures that information and uses it to help you make sense of very large conversations. Ever get confused when many people respond to a message at around the same time? Arbor makes that situation coherent.
 
-![visualisation of some Arbor nodes](./diagrams/Simple_Forest_Light.png)
+![visualization of some Arbor nodes](./diagrams/Simple_Forest_Light.png)
 
 Note the flow of the conversation on the left and how it appears that Bob is saying he's looking to see if Alice squashed her commits. She then replies and says yes, she would love his feedback. Then Bob says that feedback is not always necessary and Charlie chimes in with a seemingly random reply at the bottom. Compare that to the view on the right where each message is a reply to another and it's much clearer that there are actually 4 conversations going on simultaneously: Bob looking at Alice's PR, Charlie asking if her commits were squashed, Alice confirming that they were, and Bob saying that squashing commits is not always necessary. Without the context parents and children provide, it's much more difficult to determine how a conversation actually played out.
 
@@ -43,6 +43,7 @@ For the new implementation, we have:
 - [specifications](specifications): programming-language-agnostic
   descriptions of the formats, conventions, and protocols that Arbor
   uses.
+- [sprig](https://git.sr.ht/~whereswaldon/sprig): a cross-platform GUI arbor client.
 - [wisteria](https://git.sr.ht/~whereswaldon/wisteria): a terminal client for arbor.
 - [forest-go](https://git.sr.ht/~whereswaldon/forest-go): a library for creating and manipulating messages (nodes) in the Arbor system.
 - [sprout-go](https://git.sr.ht/~whereswaldon/sprout-go): a library for speaking the sprout protocol (our simple node exchange protocol).
