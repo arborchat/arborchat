@@ -1,0 +1,7 @@
+extends: existence
+message: "Try to avoid exclamation points except when conveying friendliness."
+link: 'https://developers.google.com/style/exclamation-points'
+nonword: true
+level: warning
+tokens:
+  - '\w!(?:\s|$)'
