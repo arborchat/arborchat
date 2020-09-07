@@ -5,38 +5,49 @@ title: Getting Started with Arbor
 It only takes a few steps to get connected in Arbor!
 
 # Installation
-[Sprig](https://git.sr.ht/~whereswaldon/sprig) is currently the best way to experience Arbor but there is also a CLI client called `wisteria` for which there is a separate [getting started guide](./getting-started-cli.md). To download the latest version, head to the [release page](https://git.sr.ht/~whereswaldon/sprig/refs). Choose the topmost list item (click the version number) then find your download link. The Windows release will have `windows` in the file name, Linux will have `linux`, and so on.
+[Sprig](https://git.sr.ht/~whereswaldon/sprig) is currently the best way to experience Arbor but there is also a CLI client called `wisteria` for which there is a separate [getting started guide](./getting-started-cli.md). To download the latest version, head to the [release page](https://git.sr.ht/~whereswaldon/sprig/refs). Choose the topmost list item (click the version number) then find your download link. The Windows release has `windows` in the filename, Linux has `linux`, and so on.
 
-If you're on Android, there is also an APK that can be downloaded and installed. However, you'll need to have your phone in developer mode, installation from unknown sources enabled, etc. If you don't, don't worry about it and simply wait until it's released in [F-Droid](https://f-droid.org/) or Google Play. A version for iOS is in the works.
+If you're on Android, there is also an APK available for download. However, you'll need to have your phone in developer mode, installation from unknown sources enabled, etc. If you don't, don't worry about it and simply wait until it's released in [F-Droid](https://f-droid.org/) or Google Play. A version for iOS is in the works.
 
-Once you have the file, unpack the archive. This can generally be accomplished by double-clicking it in your file manager or you can just use `tar xvf <file-name>` from the Linux or macOS command line. You'll be left with a single executable named `sprig`. Move that wherever you'd like but remember its location for later.
+Once you have the file, unpack the archive. Double-click it in your file manager or run `tar xvf <file-name>` from the Linux or macOS command line. You'll then have a single executable named `sprig` in that directory. Move that wherever you'd like but remember its location for later.
 
-## Create your account
+# Creating your account
 
-An Arbor account is called an Identity and creation is quite simple. Open a terminal, navigate to the folder where you put the `sprig` executable, and double-click it. Confirm that messages are immutable then enter `arbor.chat:7117` and click `Connect`. Make sure you *don't* press enter as that will currently insert a newline character and the connection will fail. After typing the address, just click the button.
+Arbor accounts are called Identities and creation is quite simple. Navigate to where you stored the `sprig` binary and execute it. Double-click the file in a graphical file manager or use `./sprig` from a Linux or macOS terminal. Once the application opens, confirm that messages are immutable (once sent, you cannot delete or edit a message) then enter `arbor.chat:7117` and click `Connect`. Make sure you *don't* press enter as that currently inserts a newline character and the connection fails. After typing the address, simply click the button.
 
 On the next screen, select "Create new Identity", enter your desired username, then click `Create`. From there, simply click `View These Communities`!
 
-## Using Sprig
+# Using Sprig
 
-By default, all messages are **unselected**. When you tap one, it becomes **selected** and its ancestors and children will be a darker colour. To the right of the selected message, there is a `Reply` button. Clicking that will reveal a dialogue at the bottom of the screen where you can type your reply. The clipboard to the left of the text entry field is for pasting text from your clipboard and the button to the right is for sending the message. Clicking the `×` in the top right of that dialogue will dismiss it.
+By default, the most recent message is **selected**. When selecting another message, it slides to the right and its ancestors and children are teal and animate accordingly. Children indent relative to the selected message and ancestors are in line with it. **Conversation roots** are dark green. These are parents which other replies branch from. As a general rule of thumb, if your message not a direct reply to something, it should be a **Conversation root**.
 
-At the top of the message view, there are four buttons.
+To the right of the selected message, there is a `Reply` button. Clicking that reveals a dialogue at the bottom of the screen where you can type your reply. The clipboard to the left of the text entry field is for pasting text from your clipboard and the button to the right is for sending the message. Clicking the `×` in the top right of that dialogue dismisses it.
 
-- Back
-  - Simply used to return to the main screen
-- Copy
-  - Copy the selected message
+At the top of the message view, there are four buttons. From left to right:
+
+- Hamburger menu
+  - Switch between the settings, the conversation view, and other pages
+- +
+  - Compose a **Conversation root** message
 - Filter
   - Only display messages that are direct parents or children of the selected message
-- New conversation
-  - This is used to create a new conversation, a message at the root of the tree with no ancestry
+- Kebab menu
+  - Overflow menu containing additional options. At the moment, those include jumping to the top and bottom of the conversation view.
 
-## Updating Sprig
+## Keyboard short cuts
+On desktop, the following short cuts are available:
+
+- `f` and `Space` to toggle the filter
+- `c` to create a new conversation root
+- `Enter` replies to the selected message
+- `j`/`k` are Vi key bindings for scrolling: `j` is down and `k` is up. Arrow keys work as well.
+- `g`/`G` are Vi key bindings for jumping: `g` jumps to the top of the grove and `G` jumps to the bottom. `Home` and `End` work as well.
+
+# Updating Sprig
 
 Simply follow the directions for [installing Sprig](#Installation) then just launch it. Feel free to delete the old binary if you wish.
 
-## Going Further
+# Going further
 
 Do you want to:
 
