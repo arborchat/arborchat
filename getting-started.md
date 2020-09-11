@@ -27,9 +27,9 @@ At the top of the message view, there are four buttons. From left to right:
 
 - Hamburger menu
   - Switch between the settings, the conversation view, and other pages
-- +
+- Plus Button
   - Compose a **Conversation root** message
-- Filter
+- Filter Button
   - Only display messages that are direct parents or children of the selected message
 - Kebab menu
   - Overflow menu containing additional options. At the moment, those include jumping to the top and bottom of the conversation view.
