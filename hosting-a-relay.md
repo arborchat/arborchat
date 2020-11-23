@@ -2,6 +2,8 @@
 title: Hosting your own arbor relay
 ---
 
+Want to host your own arbor infrastructure? It's easy to do, either for testing or to host more private communities.
+
 # Acquiring the relay
 
 We don't currently have pre-built binaries for the relay, but you can build it yourself very easily. You need a recent version of [`go`](https://golang.org/dl) and `git`.
